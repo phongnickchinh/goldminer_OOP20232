@@ -1,5 +1,7 @@
 package com.oop.view;
 
+import com.oop.Main;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
@@ -8,6 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+
+//cài đặt kích thước tthu nhỏ mặc định của hình ảnh
+
 
 
 //gọi đến pop-up chúc mừng chiến thắng khi chiến thắng
@@ -25,8 +30,8 @@ public class Popup {
         //nếu status là "win" thì hiển thị hình ảnh winPopup.png
         ImageView popupView = new ImageView();
         //set độ lớn của hình ảnh là 541x518
-        popupView.setFitWidth(541);
-        popupView.setFitHeight(518);
+        popupView.setFitWidth(545/Main.scale);
+        popupView.setFitHeight(520/Main.scale);
         if (status.equals("win")) {
             popupView.setImage(winPopup);
             root.getChildren().add(popupView);

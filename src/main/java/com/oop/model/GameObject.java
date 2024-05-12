@@ -12,5 +12,6 @@ public class GameObject {
     Image CaughtImg;
     public boolean caughtFlag;
     public boolean deleteFlag;
+    int bombFlag;
     
 }

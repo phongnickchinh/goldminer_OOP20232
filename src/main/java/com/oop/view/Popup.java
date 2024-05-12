@@ -24,9 +24,6 @@ public class Popup {
     public static void showPopup(@SuppressWarnings("exports") StackPane parentPane, String status  ) {
         // Tạo một StackPane để chứa vật thể chúc mừng
         StackPane root = new StackPane();
-
-        // Tạo một label để làm vật thể chúc mừng, sẽ được thay đổi thành hình ảnh pop-up tương ứng
-        Label popUp = new Label();
         //nếu status là "win" thì hiển thị hình ảnh winPopup.png
         ImageView popupView = new ImageView();
         //set độ lớn của hình ảnh là 541x518

@@ -1,4 +1,6 @@
 package com.oop.model;
+
+
 import javafx.scene.image.ImageView;
 
 public class Diamond extends GameObject{

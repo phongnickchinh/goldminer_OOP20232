@@ -9,6 +9,12 @@ public class Main {
     public static int[] toolNum;
     public static int powerNum;
     
+    public static double getStartX() {
+        return 657/scale;
+    }
+    public static double getStartY() {
+        return 480/scale;
+    }
     public static void main(String[] args) {
         System.out.println("Hello World!");
         FisrtMenu.launch(FisrtMenu.class, args);

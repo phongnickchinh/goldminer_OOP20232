@@ -5,20 +5,23 @@ import com.oop.Main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
 
 public class FisrtMenu extends Application {
     
     @SuppressWarnings("exports")
     @Override
     public void start(Stage primaryStage) {
-        StackPane root = new StackPane();
+        ImageView backgroundImageView = new ImageView(new Image("file:src/main/resources/image/background/first_menu.png"));
+        StackPane root = new StackPane(backgroundImageView);
 
         //do design với tỉ lệ 1480x657 nên phải chia cho 2.25266362253 để hiển thị đúng tỉ lệ
         Scene scene = new Scene(root, 657, 480);
-        //add backgoud image
-        root.setStyle("-fx-background-image: url('file:src/main/resources/image/background/first_menu.png'); -fx-background-size: cover;");
+        //cho phép thay đổi kích thước của cửa sổ nhưng giữ nguyên tỉ lệ
+
         //tạo label startButton độ lớn 100x50
         Label startButton = new Label("Start Game");
         startButton.setPrefSize(447/Main.scale, 364/Main.scale);

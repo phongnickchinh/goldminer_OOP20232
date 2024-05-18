@@ -1,5 +1,7 @@
 package com.oop.model;
 
+import com.oop.Main;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 //import javax.imageio.ImageIO;

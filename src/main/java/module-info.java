@@ -3,6 +3,8 @@ module com.oop {
     requires javafx.fxml;
     requires javafx.graphics;
     requires javafx.base;
+    requires javafx.media;
+    
 
     opens com.oop to javafx.fxml;
     exports com.oop;

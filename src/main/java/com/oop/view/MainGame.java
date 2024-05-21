@@ -4,15 +4,16 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import com.oop.model.Diamond;
-import com.oop.model.Gold;
+import com.oop.model.Rock;
 
 public class MainGame extends Application {
 
@@ -64,8 +65,8 @@ public class MainGame extends Application {
     }
 
     private void startLevel() {
-        timeRemaining = 10; 
-        currentScore = 0; 
+        timeRemaining = 10;
+        currentScore = 0;
         updateScore();
         updateTime();
         updateLevelInfo();
@@ -81,7 +82,6 @@ public class MainGame extends Application {
         // Clear previous objects
         root.getChildren().removeIf(node -> node instanceof ImageView);
 
-        
         for (int i = 0; i < 7; i++) {
             int minRange = 150;
             int maxRange = 450;
@@ -140,45 +140,63 @@ public class MainGame extends Application {
     }
 
     private void showLevelCompletedMessage() {
+        gameTimeline.stop(); // Stop the game timeline
+
+        // Create a full-screen overlay
+        StackPane overlay = new StackPane();
+        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
+        overlay.setPrefSize(657, 480);
+
         VBox messageBox = new VBox();
-        messageBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 20px;");
-        messageBox.setLayoutX(200);
-        messageBox.setLayoutY(150);
+        messageBox.setStyle("-fx-alignment: center; -fx-spacing: 20px;");
+        
+        ImageView winPopup = new ImageView(new Image("file:src/main/resources/image/popup/win_pop_up.png"));
+        winPopup.setFitWidth(450);
+        winPopup.setFitHeight(300);
 
-        Label messageLabel = new Label("Congratulations! You've completed the level!");
-        messageLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white;");
+        Label messageLabel = new Label("Next level will start in 5 seconds");
+        messageLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;");
 
-        Button nextLevelButton = new Button("Play Next Level");
-        nextLevelButton.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 18px;");
-        nextLevelButton.setOnAction(event -> {
-            root.getChildren().remove(messageBox);
-            root.getChildren().remove(nextLevelButton);
+        messageBox.getChildren().addAll(winPopup, messageLabel);
+        overlay.getChildren().add(messageBox);
+
+        root.getChildren().add(overlay);
+
+        // Wait for 5 seconds before starting the next level
+        Timeline waitTimeline = new Timeline(new KeyFrame(Duration.seconds(5), e -> {
+            root.getChildren().remove(overlay);
             startLevel();
-        });
-
-        messageBox.getChildren().addAll(messageLabel, nextLevelButton);
-        root.getChildren().add(messageBox);
+        }));
+        waitTimeline.setCycleCount(1); // Ensure this only runs once
+        waitTimeline.play();
     }
 
     private void showEndMessage(String message) {
+        gameTimeline.stop(); // Stop the game timeline
+
+        // Create a full-screen overlay
+        StackPane overlay = new StackPane();
+        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
+        overlay.setPrefSize(657, 480);
+
         VBox messageBox = new VBox();
-        messageBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 20px;");
-        messageBox.setLayoutX(100);
-        messageBox.setLayoutY(100);
+        messageBox.setStyle("-fx-alignment: center; -fx-spacing: 20px;");
 
-        Label endMessage = new Label(message);
-        endMessage.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: white;");
+        ImageView losePopup = new ImageView(new Image("file:src/main/resources/image/popup/lose_pop_up.png"));
+        losePopup.setFitWidth(375);
+        losePopup.setFitHeight(300);
 
-        Button endButton = new Button("End Game");
-        endButton.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px;");
-        endButton.setOnAction(event -> {
-            root.getChildren().remove(messageBox);
-            // You can add any additional cleanup or exit logic here
-        });
+        Label messageLabel = new Label(message);
+        messageLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;");
 
-        messageBox.getChildren().addAll(endMessage, endButton);
-        root.getChildren().add(messageBox);
-    }
+        Label exitMessageLabel = new Label("Click 'X' to exit the game");
+        exitMessageLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        messageBox.getChildren().addAll(losePopup, messageLabel, exitMessageLabel);
+        overlay.getChildren().add(messageBox);
+
+        root.getChildren().add(overlay);
+}
 
     public static void main(String[] args) {
         launch(args);

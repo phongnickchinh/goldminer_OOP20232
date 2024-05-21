@@ -66,7 +66,7 @@ public class MainGame extends Application {
     }
 
     private void startLevel() {
-        timeRemaining = 5;
+        timeRemaining =10;
         currentScore = 0;
         updateScore();
         updateTime();

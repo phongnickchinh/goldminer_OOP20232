@@ -15,6 +15,10 @@ public class FisrtMenu extends Application {
     @SuppressWarnings("exports")
     @Override
     public void start(Stage primaryStage) {
+                //them nha mơ dau
+                PlayMusic firstSound = new PlayMusic();
+                firstSound.SetMusicPath("src/main/resources/music/soundtrack3.wav");
+                firstSound.run();
         ImageView backgroundImageView = new ImageView(new Image("file:src/main/resources/image/background/first_menu.png"));
         StackPane root = new StackPane(backgroundImageView);
 
@@ -34,6 +38,10 @@ public class FisrtMenu extends Application {
         primaryStage.setTitle("Gem_miner_OOP20232");
         //chuyển sang scene mainGame của trò chơi khi bấm vào startButton
         startButton.setOnMouseClicked(e -> {
+            firstSound.stopMusic();
+            PlayMusic click = new PlayMusic();
+            click.SetMusicPath("src/main/resources/music/click.mp3");
+            click.run();
             MainGame mainGame = new MainGame();
             mainGame.start(primaryStage);
         });

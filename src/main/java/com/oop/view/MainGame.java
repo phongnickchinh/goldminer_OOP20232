@@ -28,6 +28,7 @@ public class MainGame extends Application {
     private Label levelLabel;
     private Label targetScoreLabel;
     private Pane root;
+    private boolean isSoundPlaying = false;
 
     @Override
     public void start(Stage primaryStage) {
@@ -65,11 +66,12 @@ public class MainGame extends Application {
     }
 
     private void startLevel() {
-        timeRemaining = 10;
+        timeRemaining = 5;
         currentScore = 0;
         updateScore();
         updateTime();
         updateLevelInfo();
+        isSoundPlaying=false;
 
         if (gameTimeline != null) {
             gameTimeline.stop();
@@ -97,6 +99,9 @@ public class MainGame extends Application {
             root.getChildren().add(imageView);
             // Add click handler to collect gold
             imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
                 currentScore += 100; // Example score increment
                 root.getChildren().remove(imageView);
                 updateScore();
@@ -106,16 +111,35 @@ public class MainGame extends Application {
 
     private void updateGame() {
         if (timeRemaining >= 1) timeRemaining--;
+        if(timeRemaining<=9&& timeRemaining>8){
+            if(!isSoundPlaying){
+            PlayMusic ingame = new PlayMusic();
+            ingame.SetMusicPath("src/main/resources/music/ingame.wav");
+            ingame.run();
+            }
+        }
         updateTime();
 
         if (timeRemaining <= 0) {
             if (currentScore >= TARGET_SCORES[currentLevel]) {
+                if(currentLevel<5){
+                 if(!isSoundPlaying){
+                    PlayMusic victoryRound = new PlayMusic();
+                    victoryRound.SetMusicPath("src/main/resources/music/victoryRound.wav");
+                    victoryRound.run();
+                    isSoundPlaying = true;
+                    }
+                }
                 currentLevel++;
                 if (currentLevel < NUM_LEVELS) {
                     showLevelCompletedMessage();
                 } else {
                     // Player has completed all levels
+                    PlayMusic victoryFinal = new PlayMusic();
+                    victoryFinal.SetMusicPath("src/main/resources/music/victoryFinal.MP3");
+                    victoryFinal.run();
                     gameTimeline.stop();
+                    victoryFinal.stopMusic();
                     showEndMessage("Congratulations! You've completed all levels!");
                 }
             } else {

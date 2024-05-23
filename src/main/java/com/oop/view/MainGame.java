@@ -110,6 +110,7 @@ public class MainGame extends Application {
     }
 
     private void updateGame() {
+
         if (timeRemaining >= 1) timeRemaining--;
         if(timeRemaining<=9&& timeRemaining>8){
             if(!isSoundPlaying){
@@ -144,6 +145,9 @@ public class MainGame extends Application {
                 }
             } else {
                 // Game over
+                PlayMusic soundLose = new PlayMusic();
+                soundLose.SetMusicPath("src/main/resources/music/lose1.1.wav");
+                soundLose.run();
                 gameTimeline.stop();
                 showEndMessage("Game Over! You did not reach the target score.");
             }

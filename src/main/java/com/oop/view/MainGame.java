@@ -11,8 +11,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import com.oop.Main;
 import com.oop.model.Diamond;
 import com.oop.model.Gold;
+import com.oop.model.Mole;
 
 public class MainGame extends Application {
 
@@ -28,6 +31,7 @@ public class MainGame extends Application {
     private Label targetScoreLabel;
     private Pane root;
 
+    @SuppressWarnings("exports")
     @Override
     public void start(Stage primaryStage) {
         root = new Pane();
@@ -64,7 +68,7 @@ public class MainGame extends Application {
     }
 
     private void startLevel() {
-        timeRemaining = 10; 
+        timeRemaining = 60; 
         currentScore = 0; 
         updateScore();
         updateTime();
@@ -82,23 +86,39 @@ public class MainGame extends Application {
         root.getChildren().removeIf(node -> node instanceof ImageView);
 
         
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 5; i++) {
             int minRange = 150;
             int maxRange = 450;
             int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            System.out.println(x + " " + y);
 
-            Diamond diamond = new Diamond(x, y, i%3);
+            Diamond diamond = new Diamond(0, 0, i%2);
+            Mole hehe = new Mole(x, y,x-200,x+50,0);
+            diamond.caughtFlag=true;
             ImageView imageView = diamond.getImageView(1);
-            imageView.setFitWidth(35);
-            imageView.setFitHeight(35);
+            ImageView imageView2 = hehe.getImageView(1);
+            //hehe.move(imageView2, hehe.getSpeed());
+            //thu nhỏ imageView giảm 1/2
+            imageView2.setScaleX(0.25/Main.scale);
+            imageView2.setScaleY(0.25/Main.scale);
+            imageView2.setLayoutX(x);
+            imageView2.setLayoutY(y);
+            imageView.setScaleX(0.25/Main.scale);
+            imageView.setScaleY(0.25/Main.scale);
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
+            root.getChildren().add(imageView2);
             // Add click handler to collect gold
             imageView.setOnMouseClicked(event -> {
                 currentScore += 100; // Example score increment
                 root.getChildren().remove(imageView);
+                updateScore();
+            });
+            imageView2.setOnMouseClicked(event -> {
+                currentScore += hehe.getVal(); // Example score increment
+                root.getChildren().remove(imageView2);
                 updateScore();
             });
         }

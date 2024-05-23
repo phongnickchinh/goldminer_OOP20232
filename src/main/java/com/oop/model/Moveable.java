@@ -1,6 +1,8 @@
 package com.oop.model;
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 //import javafx.scene.layout.Pane;
 //import java.util.Random;
 public class Moveable extends GameObject{
@@ -19,40 +21,58 @@ public class Moveable extends GameObject{
         dir = (int) (Math.random() * 2);
         left = l;
         right = r;
-        itemImg = new Image(getClass().getResource(imgPath).toString());
-        itemImgAnother = new Image(getClass().getResource(imgPath3).toString());
-        caughtImg = new Image(getClass().getResource(imgPath2).toString());
-        caughtImgAnother = new Image(getClass().getResource(imgPath4).toString());
+        if (dir == 0) {
+            itemImg = new Image(imgPath);
+            itemImgAnother = new Image( imgPath3);
+            caughtImg = new Image(imgPath2);
+            caughtImgAnother = new Image(imgPath4);
+        }
+        else {
+            itemImg = new Image(imgPath2);
+            itemImgAnother = new Image(imgPath4);
+            caughtImg = new Image(imgPath);
+            caughtImgAnother = new Image(imgPath3);
+        }
+
+
         imageView = new ImageView(itemImg);
         imageView.setFitWidth(size);
         imageView.setFitHeight(size);
     }
 
-    public void update() {
-        if (dir == 0) {
-            X -= 1;
-            if (X < left) {
-                dir = 1;
+    public void move(ImageView mouseImageView, double speed) {
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds((right-left)/speed/10), mouseImageView);
+        translateTransition.setFromX(left);  // vị trí bắt đầu
+        translateTransition.setToX(right);    // vị trí kết thúc
+        translateTransition.setCycleCount(TranslateTransition.INDEFINITE);  // lặp vô hạn
+        //mỗi khi đến left, in ra x
+        translateTransition.setOnFinished(e -> {
+            if (mouseImageView.getX() == left) {
+                System.out.println(mouseImageView.getX());
             }
-        } else {
-            X += 1;
-            if (X > right) {
-                dir = 0;
-            }
-        }
-        imageView.setX(X);
+        });
+        translateTransition.setAutoReverse(true);  // tự động quay ngược lại
+        // Bắt đầu hoạt ảnh
+        translateTransition.play();
     }
 
+
     public void updateImages() {
+        //nếu vật thể đang được gắp lên
         if (caughtFlag) {
+            //nếu hướng của vật thể là 1 (phải) thì hiển thị hình ảnh caughtImg
             if (dir == 1) {
                 imageView.setImage(caughtImg);
+            //nếu hướng của vật thể là 0 (trái) thì hiển thị hình ảnh caughtImgAnother
             } else {
                 imageView.setImage(caughtImgAnother);
             }
+            //nếu vật thể không được gắp lên
         } else {
+            //nếu hướng của vật thể là 1 (phải) thì hiển thị hình ảnh itemImg
             if (dir == 1) {
                 imageView.setImage(itemImg);
+            //nếu hướng của vật thể là 0 (trái) thì hiển thị hình ảnh itemImgAnother
             } else {
                 imageView.setImage(itemImgAnother);
             }
@@ -74,9 +94,31 @@ public class Moveable extends GameObject{
         throw new UnsupportedOperationException("Unimplemented method 'getImageView'");
     }
 
-    //@Override
-    //public ImageView getImageView(double d) {
-        
-      //  throw new UnsupportedOperationException("Unimplemented method 'getImageView'");
-    ////}
+    public int getDir() {
+        return dir;
+    }
+
+    public void setDir(int dir) {
+        this.dir = dir;
+    }
+
+    public int getLeft() {
+        return left;
+    }
+
+    public void setLeft(int left) {
+        this.left = left;
+    }
+
+    public int getRight() {
+        return right;
+    }
+
+    public void setRight(int right) {
+        this.right = right;
+    }
+
+    public double getSpeed() {
+        return Speed;
+    }
 }

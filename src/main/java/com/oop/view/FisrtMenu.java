@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 
 public class FisrtMenu extends Application {
-    
     @SuppressWarnings("exports")
     @Override
     public void start(Stage primaryStage) {

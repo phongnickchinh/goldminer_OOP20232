@@ -14,18 +14,27 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.oop.Main;
 import com.oop.model.Boom;
 import com.oop.model.Claw;
 import com.oop.model.Diamond;
+import com.oop.model.GameObject;
 import com.oop.model.Gold;
 import com.oop.model.Mole;
 import com.oop.model.Rock;
+import com.oop.model.Ruby;
 
 public class MainGame extends Application {
 
+    private static List<GameObject> lisst;
+    static{
+        lisst =new ArrayList<>();
+    };//lưu lại đối tượng ẩn vì móc kéo tượng tác với đối tượng thay vì imageview
     private static final int NUM_LEVELS = 6;
-    private static final int[] TARGET_SCORES = {100, 200, 300, 400, 500, 600}; // Example target scores for each level
+    private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 3000}; // Example target scores for each level
     private int currentLevel = 0;
     private int currentScore = 0;
     private int timeRemaining = 60;
@@ -53,22 +62,22 @@ public class MainGame extends Application {
         scoreLabel = new Label("Score: 0");
         scoreLabel.setLayoutX(10);
         scoreLabel.setLayoutY(10);
-        scoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white;");
+        scoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
 
         timeLabel = new Label("Time: 60");
         timeLabel.setLayoutX(10);
         timeLabel.setLayoutY(50);
-        timeLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white;");
+        timeLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
 
         levelLabel = new Label("Level: 1");
         levelLabel.setLayoutX(500);
         levelLabel.setLayoutY(10);
-        levelLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white;");
+        levelLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
 
         targetScoreLabel = new Label("Target: 100");
         targetScoreLabel.setLayoutX(500);
         targetScoreLabel.setLayoutY(50);
-        targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white;");
+        targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
 
         root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel, robotView);
 
@@ -77,6 +86,119 @@ public class MainGame extends Application {
         primaryStage.show();
 
         startLevel();
+    }
+
+    private void addDiamond(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            Diamond diamond = new Diamond(x, y, kind);
+            ImageView imageView = diamond.getImageView(1);
+            imageView.setFitWidth(20);
+            imageView.setFitHeight(20);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += diamond.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+        }
+    }
+
+    private void addGold(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            Gold gold = new Gold(x, y, kind);
+            ImageView imageView = gold.getImageView(1);
+            imageView.setFitWidth((kind + 2) * 15);
+            imageView.setFitHeight((kind + 2) * 15);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += gold.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+        }
+    }
+
+    private void addRock(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            Rock rock = new Rock(x, y, kind);
+            ImageView imageView = rock.getImageView(1);
+            imageView.setFitWidth((kind + 2) * 15);
+            imageView.setFitHeight((kind + 2)*15);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += rock.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+        }
+    }
+
+    private void addMole(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+
+            Mole mole = new Mole(x, y, x - 200, y + 50, 0);
+            ImageView imageView = mole.getImageView(1);
+            imageView.setFitWidth(20);
+            imageView.setFitHeight(10);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            // Add click handler to collect gold
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic MouseSound = new PlayMusic();
+                MouseSound.SetMusicPath("src/main/resources/music/MouseSound.mp3");
+                MouseSound.run();
+                currentScore += mole.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+
+        }
+    }
+
+    private void addRuby(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            Ruby ruby = new Ruby(x, y, kind);
+            ImageView imageView = ruby.getImageView(1);
+            imageView.setFitWidth(25);
+            imageView.setFitHeight(25);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += ruby.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+        }
     }
 
     private void startLevel() {
@@ -98,69 +220,51 @@ public class MainGame extends Application {
         // Clear previous objects
         root.getChildren().removeIf(node -> node instanceof ImageView);
 
-        Claw claw = new Claw(0.0, 10.0);
-        Image clawImg = new Image("file:src/main/resources/image/Claw/robot_hand.png");
-        ImageView clawView = new ImageView(clawImg);
-        clawView.setFitWidth(clawImg.getWidth());
-        clawView.setFitHeight(clawImg.getHeight() );
-        root.getChildren().add(clawView);
+        if (currentLevel == 0){
+            addRock(3, 150, 450, 1);
+            addRock(2, 150, 450, 0);
+            addGold(3, 150, 450, 1);
+            addGold(5, 150, 450, 0);
+        }
+        else if (currentLevel == 1){
+            addGold(2, 150, 460, 2);
+            addGold(3, 150, 460, 0);
+            addGold(3, 150, 460, 1);
+            addRock(3, 150, 450, 0);
+            addRock(2, 150, 450, 1);
+        }
+        else if (currentLevel == 2){
+            addRock(3, 140, 460, 0);
+            addRock(3, 140, 470, 1);
+            addGold(3, 150, 450, 1);
+            addGold(3, 150, 450, 0);
+            addGold(3, 150, 450, 2);
+            addDiamond(2, 100, 500, 1);
+        }
 
-        for (int i = 0; i < 7; i++) {
-            int minRange = 150;
-            int maxRange = 450;
-            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+        else if (currentLevel == 3){
 
-            Diamond diamond = new Diamond(0, 0, i%2);
-            Mole hehe = new Mole(x, y,x-200,x+50,0);
-            Boom boom = new Boom(x, y);
-            diamond.caughtFlag = true;
-            ImageView imageView = diamond.getImageView(1);
-            ImageView imageView2 = hehe.getImageView(1);
-            ImageView imageView3 = boom.getImageView(1);
-            imageView2.setScaleX(0.25/Main.scale);
-            imageView2.setScaleY(0.25/Main.scale);
-            imageView2.setLayoutX(x);
-            imageView2.setLayoutY(y);
-            imageView.setScaleX(0.25/Main.scale);
-            imageView.setScaleY(0.25/Main.scale);
-            imageView.setLayoutX(x);
-            imageView.setLayoutY(y);
-            imageView3.setScaleX(0.25/Main.scale);
-            imageView3.setScaleY(0.25/Main.scale);
-            imageView3.setLayoutX(x);
-            imageView3.setLayoutY(y);
+            addMole(3, 140, 460, 0);
+            addRock(3, 140, 460, 0);
+            addRock(3, 140, 470, 1);
+            addGold(3, 140, 450, 1);
+            addGold(5, 150, 450, 0);
+            addDiamond(4, 150, 450, 1);
+            addRuby(3, 150, 450, 1);
+        }
 
-            hehe.move(imageView2, hehe.getSpeed());
-            root.getChildren().add(imageView);
-            root.getChildren().add(imageView2);
-            root.getChildren().add(imageView3);
-
-            // Add click handler to collect gold
-            imageView.setOnMouseClicked(event -> {
-                PlayMusic thuvatpham = new PlayMusic();
-                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                thuvatpham.run();
-                currentScore += 100; // Example score increment
-                root.getChildren().remove(imageView);
-                updateScore();
-            });
-            imageView2.setOnMouseClicked(event -> {
-                currentScore += hehe.getVal(); // Example score increment
-                root.getChildren().remove(imageView2);
-                updateScore();
-            });
-            imageView3.setOnMouseClicked(event -> {
-                System.out.println("Boom clicked");
-
-                boom.bomb();
-                PlayMusic boomSound = new PlayMusic();
-                boomSound.SetMusicPath("src/main/resources/music/boom.wav");
-                boomSound.run();
-                root.getChildren().remove(imageView3);
-                
-
-            });
+        else if (currentLevel == 4){
+            addMole(4, 100, 460, 0);
+            addRuby(3, 150, 450, 0);
+            addRock(4, 140, 460, 0);
+            addRock(3, 140, 460, 1);
+            addGold(5, 140, 450, 1);
+            addGold(5, 140, 450, 0);
+            addDiamond(3, 150, 450, 1);
+        }
+        else if (currentLevel == 5){
+            addMole(5, 100, 460, 0);
+            addDiamond(8, 150, 450, 1);
         }
     }
 

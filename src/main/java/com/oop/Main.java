@@ -10,10 +10,10 @@ public class Main {
     public static int powerNum;
     
     public static double getStartX() {
-        return 657/scale;
+        return 657/2;
     }
     public static double getStartY() {
-        return 480/scale;
+        return 110;
     }
     public static void main(String[] args) {
         System.out.println("Hello World!");

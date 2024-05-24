@@ -1,7 +1,5 @@
 package com.oop.model;
 import javafx.scene.image.ImageView;
-import javafx.animation.TranslateTransition;
-import javafx.util.Duration;
 public class Mole extends Moveable{
     public static final int[] VAL = { 2, 3, 4};
     public static final int[] SIZE = { 30, 40};

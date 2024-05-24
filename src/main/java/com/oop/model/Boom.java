@@ -8,13 +8,13 @@ public class Boom extends GameObject{
     Image[] bombImg = new Image[5];
 
     public Boom(double xx, double yy) {
-        super(xx, yy, "file:src/main/resources/image/bomb.png", "file:src/main/resources/image/clawbomb.png", 2, 60, 6);//Đổi
+        super(xx, yy, "file:src/main/resources/image/boom/bomb.png", "file:src/main/resources/image/boom/clawbomb.png", 2, 60, 6);//Đổi
         imgNum = 0;
 
         try {
-            bombImg[0] = new Image(getClass().getResourceAsStream("file:src/main/resources/image/bomb.png"));
-            bombImg[1] = new Image(getClass().getResourceAsStream("file:src/main/resources/image/bomno1.png"));
-            bombImg[2] = new Image(getClass().getResourceAsStream("file:src/main/resources/image/bomno2.png"));
+            bombImg[0] = new Image("file:src/main/resources/image/boom/bomb.png");
+            bombImg[1] = new Image("file:src/main/resources/image/boom/bomno1.png");
+            bombImg[2] = new Image("file:src/main/resources/image/boom/bomno2.png");
             //bombImg[3] = new Image(getClass().getResourceAsStream("img/boom3.png"));
 
         } catch (Exception e) {
@@ -89,6 +89,8 @@ public class Boom extends GameObject{
 
     @Override
     public ImageView getImageView(double d) {
-        throw new UnsupportedOperationException("Unimplemented method 'getImageView'");
+        ImageView imageView = new ImageView(getImg(d));
+        // Additional customization of imageView if needed
+        return imageView;
     }
 }

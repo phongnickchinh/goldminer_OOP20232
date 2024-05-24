@@ -1,7 +1,5 @@
 package com.oop.model;
 
-import com.oop.Main;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 //import javax.imageio.ImageIO;
@@ -35,7 +33,7 @@ public abstract class GameObject {
         //nếu vật thể đang được gắp lên, cần xoay 1 hướng phù hợp với góc gắp
         if (caughtFlag)
             //return CaughtImg;
-            return RotateImage.rotateImage(CaughtImg, d, 100, 41); //fix sau
+            return RotateImage.rotateImage(CaughtImg, d); //fix sau
         else
             return ItemImg;
     }

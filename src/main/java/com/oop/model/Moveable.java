@@ -45,13 +45,18 @@ public class Moveable extends GameObject{
         translateTransition.setFromX(left);  // vị trí bắt đầu
         translateTransition.setToX(right);    // vị trí kết thúc
         translateTransition.setCycleCount(TranslateTransition.INDEFINITE);  // lặp vô hạn
-        //mỗi khi đến left, in ra x
+
+        translateTransition.setAutoReverse(true);  // tự động quay ngược lại
+        //khi quay ngược lại thì hình ảnh cũng phải quay ngược lại
         translateTransition.setOnFinished(e -> {
-            if (mouseImageView.getX() == left) {
-                System.out.println(mouseImageView.getX());
+            if (dir == 0) {
+                dir = 1;
+                imageView.setImage(itemImg);
+            } else {
+                dir = 0;
+                imageView.setImage(itemImgAnother);
             }
         });
-        translateTransition.setAutoReverse(true);  // tự động quay ngược lại
         // Bắt đầu hoạt ảnh
         translateTransition.play();
     }

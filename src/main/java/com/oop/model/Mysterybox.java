@@ -6,7 +6,7 @@ public class Mysterybox extends GameObject{
    int kind;  // Item or money
 
     public Mysterybox(double xx, double yy) {
-        super(xx, yy, "file:src/main/resources/image/box1.png", "file:src/main/resources/image/box2.png", 0, 40, (6 - Math.random() * 5));
+        super(xx, yy, "file:src/main/resources/image/Mysterybox/box1.png", "file:src/main/resources/image/Mysterybox/box2.png", 0, 40, (6 - Math.random() * 5));
 
         if ((int) (Math.random() * 4) == 3)
             kind = 1;
@@ -33,7 +33,8 @@ public class Mysterybox extends GameObject{
 
     @Override
     public ImageView getImageView(double d) {
-       
-        throw new UnsupportedOperationException("Unimplemented method 'getImageView'");
+        ImageView imageView = new ImageView(getImg(d));
+        // Additional customization of imageView if needed
+        return imageView;
     }
 }

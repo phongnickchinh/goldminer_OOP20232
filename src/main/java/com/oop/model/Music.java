@@ -14,8 +14,7 @@ public class Music{
         this.musicPath=a;
     }
 
-    @SuppressWarnings("static-access")
-    public  void playMusic(){
+    public void playMusic(){
 
         Thread musicThread = new Thread(() -> {
                 try {

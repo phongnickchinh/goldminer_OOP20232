@@ -1,5 +1,6 @@
 package com.oop.view;
 
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -14,6 +15,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import com.oop.Main;
+import com.oop.model.Boom;
+import com.oop.model.Claw;
 import com.oop.model.Diamond;
 import com.oop.model.Gold;
 import com.oop.model.Mole;
@@ -40,6 +43,12 @@ public class MainGame extends Application {
         root = new Pane();
         Scene scene = new Scene(root, 657, 480);
         root.setStyle("-fx-background-image: url('file:src/main/resources/image/background/mainGame_background.png'); -fx-background-size: cover;");
+        Image robot =new Image("file:src/main/resources/image/Claw/robot_only_1h.png");
+        ImageView robotView = new ImageView(robot);
+        robotView.setFitWidth(100/Main.scale);
+        robotView.setFitHeight(100/Main.scale);
+        robotView.setLayoutX(300);
+        robotView.setLayoutY(300);
 
         scoreLabel = new Label("Score: 0");
         scoreLabel.setLayoutX(10);
@@ -61,7 +70,7 @@ public class MainGame extends Application {
         targetScoreLabel.setLayoutY(50);
         targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white;");
 
-        root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel);
+        root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel, robotView);
 
         primaryStage.setTitle("Gem_miner_OOP20232");
         primaryStage.setScene(scene);
@@ -71,7 +80,7 @@ public class MainGame extends Application {
     }
 
     private void startLevel() {
-        timeRemaining = 60; 
+        timeRemaining = 10; 
         currentScore = 0; 
         updateScore();
         updateTime();
@@ -89,20 +98,26 @@ public class MainGame extends Application {
         // Clear previous objects
         root.getChildren().removeIf(node -> node instanceof ImageView);
 
+        Claw claw = new Claw(0.0, 10.0);
+        Image clawImg = new Image("file:src/main/resources/image/Claw/robot_hand.png");
+        ImageView clawView = new ImageView(clawImg);
+        clawView.setFitWidth(clawImg.getWidth());
+        clawView.setFitHeight(clawImg.getHeight() );
+        root.getChildren().add(clawView);
+
         for (int i = 0; i < 7; i++) {
             int minRange = 150;
             int maxRange = 450;
             int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-            System.out.println(x + " " + y);
 
             Diamond diamond = new Diamond(0, 0, i%2);
             Mole hehe = new Mole(x, y,x-200,x+50,0);
-            diamond.caughtFlag=true;
+            Boom boom = new Boom(x, y);
+            diamond.caughtFlag = true;
             ImageView imageView = diamond.getImageView(1);
             ImageView imageView2 = hehe.getImageView(1);
-            //hehe.move(imageView2, hehe.getSpeed());
-            //thu nhỏ imageView giảm 1/2
+            ImageView imageView3 = boom.getImageView(1);
             imageView2.setScaleX(0.25/Main.scale);
             imageView2.setScaleY(0.25/Main.scale);
             imageView2.setLayoutX(x);
@@ -111,8 +126,16 @@ public class MainGame extends Application {
             imageView.setScaleY(0.25/Main.scale);
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
+            imageView3.setScaleX(0.25/Main.scale);
+            imageView3.setScaleY(0.25/Main.scale);
+            imageView3.setLayoutX(x);
+            imageView3.setLayoutY(y);
+
+            hehe.move(imageView2, hehe.getSpeed());
             root.getChildren().add(imageView);
             root.getChildren().add(imageView2);
+            root.getChildren().add(imageView3);
+
             // Add click handler to collect gold
             imageView.setOnMouseClicked(event -> {
                 PlayMusic thuvatpham = new PlayMusic();
@@ -126,6 +149,17 @@ public class MainGame extends Application {
                 currentScore += hehe.getVal(); // Example score increment
                 root.getChildren().remove(imageView2);
                 updateScore();
+            });
+            imageView3.setOnMouseClicked(event -> {
+                System.out.println("Boom clicked");
+
+                boom.bomb();
+                PlayMusic boomSound = new PlayMusic();
+                boomSound.SetMusicPath("src/main/resources/music/boom.wav");
+                boomSound.run();
+                root.getChildren().remove(imageView3);
+                
+
             });
         }
     }
@@ -144,7 +178,7 @@ public class MainGame extends Application {
         if (timeRemaining <= 0) {
             if (currentScore >= TARGET_SCORES[currentLevel]) {
                 if(currentLevel<5){
-                 if(!isSoundPlaying){
+                if(!isSoundPlaying){
                     PlayMusic victoryRound = new PlayMusic();
                     victoryRound.SetMusicPath("src/main/resources/music/victoryRound.wav");
                     victoryRound.run();

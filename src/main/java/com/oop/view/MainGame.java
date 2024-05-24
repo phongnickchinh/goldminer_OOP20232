@@ -71,8 +71,121 @@ public class MainGame extends Application {
         startLevel();
     }
 
+    private void addDiamond(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            Diamond diamond = new Diamond(x, y, kind);
+            ImageView imageView = diamond.getImageView(1);
+            imageView.setFitWidth(20);
+            imageView.setFitHeight(20);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += diamond.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+        }
+    }
+
+    private void addGold(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            Gold gold = new Gold(x, y, kind);
+            ImageView imageView = gold.getImageView(1);
+            imageView.setFitWidth((kind + 2) * 15);
+            imageView.setFitHeight((kind + 2) * 15);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += gold.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+        }
+    }
+
+    private void addRock(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            Rock rock = new Rock(x, y, kind);
+            ImageView imageView = rock.getImageView(1);
+            imageView.setFitWidth((kind + 2) * 15);
+            imageView.setFitHeight((kind + 2)*15);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += rock.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+        }
+    }
+
+    private void addMole(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+
+            Mole mole = new Mole(x, y, x - 200, y + 50, 0);
+            ImageView imageView = mole.getImageView(1);
+            imageView.setFitWidth(20);
+            imageView.setFitHeight(10);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            // Add click handler to collect gold
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic MouseSound = new PlayMusic();
+                MouseSound.SetMusicPath("src/main/resources/music/MouseSound.mp3");
+                MouseSound.run();
+                currentScore += mole.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+
+        }
+    }
+
+    private void addRuby(int count, int minRange, int maxRange, int kind) {
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            Ruby ruby = new Ruby(x, y, kind);
+            ImageView imageView = ruby.getImageView(1);
+            imageView.setFitWidth(25);
+            imageView.setFitHeight(25);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += ruby.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+        }
+    }
+
     private void startLevel() {
-        timeRemaining = 60; 
+        timeRemaining = 10; 
         currentScore = 0; 
         updateScore();
         updateTime();
@@ -91,747 +204,50 @@ public class MainGame extends Application {
         root.getChildren().removeIf(node -> node instanceof ImageView);
 
         if (currentLevel == 0){
-            for (int i = 0; i < 5; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Rock diamond = new Rock(x, y, i%2);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-            for (int i = 0; i < 4; i++) {
-                int minRange = 150;
-                int maxRange = 460;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(20);
-                imageView.setFitHeight(20);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
+            addRock(3, 150, 450, 1);
+            addRock(2, 150, 450, 0);
+            addGold(3, 150, 450, 1);
+            addGold(5, 150, 450, 0);
         }
         else if (currentLevel == 1){
-            for (int i = 0; i < 2; i++) {
-                int minRange = 150;
-                int maxRange = 460;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 2);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(50);
-                imageView.setFitHeight(50);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(20);
-                imageView.setFitHeight(20);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Rock diamond = new Rock(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 2; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Rock diamond = new Rock(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(45);
-                imageView.setFitHeight(45);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
+            addGold(2, 150, 460, 2);
+            addGold(3, 150, 460, 0);
+            addGold(3, 150, 460, 1);
+            addRock(3, 150, 450, 0);
+            addRock(2, 150, 450, 1);
         }
         else if (currentLevel == 2){
-            for (int i = 0; i < 3; i++) {
-                int minRange = 140;
-                int maxRange = 460;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Rock diamond = new Rock(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 140;
-                int maxRange = 470;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Rock diamond = new Rock(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(50);
-                imageView.setFitHeight(50);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(20);
-                imageView.setFitHeight(20);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 2; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 2);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(55);
-                imageView.setFitHeight(55);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 2; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Diamond diamond = new Diamond(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(25);
-                imageView.setFitHeight(25);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
+            addRock(3, 140, 460, 0);
+            addRock(3, 140, 470, 1);
+            addGold(3, 150, 450, 1);
+            addGold(3, 150, 450, 0);
+            addGold(3, 150, 450, 2);
+            addDiamond(2, 100, 500, 1);
         }
 
         else if (currentLevel == 3){
 
-            for (int i = 0; i < 3; i++) {
-                int minRange = 140;
-                int maxRange = 460;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Mole mole = new Mole(x, y, x - 200, y + 50, 0);
-                ImageView imageView = mole.getImageView(1);
-                imageView.setFitWidth(20);
-                imageView.setFitHeight(10);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic MouseSound = new PlayMusic();
-                    MouseSound.SetMusicPath("src/main/resources/music/MouseSound.mp3");
-                    MouseSound.run();
-                    currentScore += mole.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 140;
-                int maxRange = 460;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Rock diamond = new Rock(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 140;
-                int maxRange = 470;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Rock diamond = new Rock(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(55);
-                imageView.setFitHeight(55);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 5; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(20);
-                imageView.setFitHeight(20);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 4; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Diamond diamond = new Diamond(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(25);
-                imageView.setFitHeight(25);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Ruby diamond = new Ruby(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(25);
-                imageView.setFitHeight(25);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
+            addMole(3, 140, 460, 0);
+            addRock(3, 140, 460, 0);
+            addRock(3, 140, 470, 1);
+            addGold(3, 140, 450, 1);
+            addGold(5, 150, 450, 0);
+            addDiamond(4, 150, 450, 1);
+            addRuby(3, 150, 450, 1);
         }
 
         else if (currentLevel == 4){
-
-            for (int i = 0; i < 4; i++) {
-                int minRange = 100;
-                int maxRange = 460;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Mole mole = new Mole(x, y, x - 200, y + 50, 0);
-                ImageView imageView = mole.getImageView(1);
-                imageView.setFitWidth(20);
-                imageView.setFitHeight(10);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic MouseSound = new PlayMusic();
-                    MouseSound.SetMusicPath("src/main/resources/music/MouseSound.mp3");
-                    MouseSound.run();
-                    currentScore += mole.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Ruby diamond = new Ruby(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(30);
-                imageView.setFitHeight(30);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 4; i++) {
-                int minRange = 140;
-                int maxRange = 460;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Rock diamond = new Rock(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 140;
-                int maxRange = 470;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Rock diamond = new Rock(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(55);
-                imageView.setFitHeight(55);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 5; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(35);
-                imageView.setFitHeight(35);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 5; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Gold diamond = new Gold(x, y, 0);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(20);
-                imageView.setFitHeight(20);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Diamond diamond = new Diamond(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(25);
-                imageView.setFitHeight(25);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
+            addMole(4, 100, 460, 0);
+            addRuby(3, 150, 450, 0);
+            addRock(4, 140, 460, 0);
+            addRock(3, 140, 460, 1);
+            addGold(5, 140, 450, 1);
+            addGold(5, 140, 450, 0);
+            addDiamond(3, 150, 450, 1);
         }
         else if (currentLevel == 5){
-
-            for (int i = 0; i < 3; i++) {
-                int minRange = 140;
-                int maxRange = 460;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Mole mole = new Mole(x, y, x - 200, y + 50, 0);
-                ImageView imageView = mole.getImageView(1);
-                imageView.setFitWidth(25);
-                imageView.setFitHeight(10);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic MouseSound = new PlayMusic();
-                    MouseSound.SetMusicPath("src/main/resources/music/MouseSound.mp3");
-                    MouseSound.run();
-                    currentScore += mole.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-
-            }
-
-            for (int i = 0; i < 8; i++) {
-                int minRange = 150;
-                int maxRange = 450;
-                int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-                int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-
-                Diamond diamond = new Diamond(x, y, 1);
-                ImageView imageView = diamond.getImageView(1);
-                imageView.setFitWidth(25);
-                imageView.setFitHeight(25);
-                imageView.setLayoutX(x);
-                imageView.setLayoutY(y);
-                root.getChildren().add(imageView);
-                // Add click handler to collect gold
-                imageView.setOnMouseClicked(event -> {
-                    PlayMusic thuvatpham = new PlayMusic();
-                    thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                    thuvatpham.run();
-                    currentScore += diamond.getVal(); // Example score increment
-                    root.getChildren().remove(imageView);
-                    updateScore();
-                });
-            }
+            addMole(5, 100, 460, 0);
+            addDiamond(8, 150, 450, 1);
         }
     }
 

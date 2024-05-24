@@ -1,16 +1,27 @@
 package com.oop.model;
 import com.oop.Main;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.transform.Rotate;
+
 public class Claw {
     // Tọa độ hiện tại của móc cẩu
     private double clawX;
     private double clawY;
+    private double firstX;
+    private double firstY;
+    private double centerX;
+    private double centerY;
     // Tốc độ kéo dài
     double stretchSpeed;
     // Hướng quay
     private int spinDirection;
     // Góc quay
-    private double angle;
+    private double preAngle,angle;
+    // bán kính quay
+    private double radius;
     
     // Ba trạng thái: quay, hạ xuống, nâng lên
     private int stateFlag;
@@ -18,9 +29,14 @@ public class Claw {
     // Đối tượng hiện tại đang được móc cẩu
     private GameObject Item;
     
+    //chứa Pane cha của claw
+    private Pane root;
+    //Đối tượng vẽ
+    private final Image clawImage= new Image("file:src/main/resources/image/Claw/robot_hand.png");
     // Hàm khởi tạo
-    public Claw() {
-        inition();
+    //#Truyền vào độ dịch của móc so với toạ độ trung tâm
+    public Claw(Pane root) {
+        inition(root);
     }
 
     public double getAngle() {
@@ -39,16 +55,22 @@ public class Claw {
         Item = item;
     }
 
-    public void inition() {
+    public void inition(Pane root) {
         // Đây là vị trí ban đầu của cần cẩu
-        clawX = Main.getStartX() + 9;
-        clawY = Main.getStartY() + 7;
+        this.root = root;
+        clawX = 295.5;
+        clawY = 91.5;
+        firstX = clawX;
+        firstY = clawY;
+        centerX = 295.5;
+        centerY = 63.75;
+        radius = Math.sqrt((firstX - centerX) * (firstX - centerX) + (firstY - centerY) * (firstY - centerY));
 
         // Khởi tạo tốc độ
-        stretchSpeed = 10;
+        stretchSpeed = 4;
         spinDirection = 1;
         stateFlag = 0;
-        Item = null;
+        Item = null; //
     }
     
     // Sử dụng cho sự kiện lắng nghe bàn phím, nếu đang quay thì thả móc cẩu
@@ -57,7 +79,6 @@ public class Claw {
             stateFlag = 1;
         else
             return;
-        angle = Math.atan((clawX - Main.getStartX()) / (clawY - Main.getStartY()));
     }
 
     public int getX() {
@@ -72,76 +93,64 @@ public class Claw {
         return Item;
     }
     
-    // public void move() {
-    //     // Móc cẩu quay
-    //     if (stateFlag == 0) {
-    //         // Điều chỉnh tốc độ
-    //         double circleSize = 15;
-    //         double spinSpeed = (clawY - Main.getStartY() + 1) * (clawY - Main.getStartY() + 1) / 500;
-    //         // Cập nhật tọa độ
-    //         clawX -= spinSpeed * spinDirection;
-    //         clawY = Math.sqrt(Math.max(circleSize * circleSize - ((clawX - Main.getStartX()) * (clawX - Main.getStartX())), 0))
-    //                 + Main.getStartY();
-    //         angle = Math.atan((clawX - Main.getStartX()) / (clawY - Main.getStartY()));
-            
-    //         // Đổi hướng khi đến biên
-    //         if (clawX < Main.getStartX() - circleSize + 1 && spinDirection > 0) {
-    //             spinDirection *= -1;
-    //         }
-    //         if (clawX > Main.getStartX() + circleSize - 1 && spinDirection < 0) {
-    //             spinDirection *= -1;
-    //         }
-    //     }
-    //     // Móc cẩu hạ xuống
-    //     else if (stateFlag == 1) {
-    //         // Cập nhật tọa độ
-    //         clawX += stretchSpeed * Math.sin(angle);
-    //         clawY += stretchSpeed * Math.cos(angle);
-    //         // Kiểm tra vượt biên
-    //         if (clawY >= 575 || clawX <= 0 || clawX >= Main.getWeight()) {
-    //             stateFlag = 2;
-    //         }
-    //         // Kiểm tra bắt
-    //         for (int i = 0; i < CatchableArray.catchableSet.size(); ++i) {
-    //             Catchable c = CatchableArray.catchableSet.get(i);
-    //             if (clawX >= c.X && clawX <= c.X + c.Size && clawY >= c.Y && clawY <= c.Y + c.Size) {
-    //                 // Cập nhật trạng thái và tọa độ
-    //                 c.touch(clawX, clawY, angle);
-                
-    //                 stateFlag = 2;
-    //                 Item = c;
-                    
-    //                 // Tác dụng tăng tốc
-    //                 if (Main.tool_num[0] != 0)
-    //                     stretchSpeed = c.Speed + 2;
-    //                 else
-    //                     stretchSpeed = c.Speed;
-                    
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     // Móc cẩu nâng lên
-    //     else {
-    //         // Cập nhật tọa độ
-    //         clawX -= stretchSpeed * Math.sin(angle);
-    //         clawY -= stretchSpeed * Math.cos(angle);
-            
-    //         // Móc cẩu đến điểm xuất phát, cập nhật trạng thái và tiền
-    //         if ((int) clawY < Main.getStartY() + 7) {
-    //             stateFlag = 0;
-                                
-    //             // Sau khi bắt về, cập nhật tiền
-    //             // Cập nhật vật phẩm cũng nằm trong getVal
-    //             if (Item != null) {
-    //                 Main.money += Item.getVal();
-    //                 Item.deleteFlag = true;
-    //                 Item = null;
-    //             }        
-    
-    //             // Đặt lại móc cẩu
-    //             inition();
-    //         }
-    //     }
-    // }
+
+    //hàm move có chức năng thực hiện di chuyển kẹp gắp:
+    public void move(){
+        if(stateFlag==0){
+            this.swing();
+        }
+
+        if(stateFlag == 1){
+            this.runAndCatch();
+        }
+
+        if(stateFlag==2){
+            this.pullUp();
+        }
+    }
+
+
+    //hàm swing có chức năng thực hiện quay kẹp gắp:
+    public void swing() {
+        //cập nhật góc của kẹp
+        preAngle = angle;
+        angle += 0.1 * spinDirection;
+        if(angle>Math.PI/2 || angle<-Math.PI/2){
+            spinDirection *= -1;
+        }
+        System.out.println("angle: "+angle);
+        //cập nhật tọa độ của kẹp
+        clawX =firstX+radius*Math.sin(angle);
+        clawY =firstY-radius*(1-Math.cos(angle));
+        System.out.println("clawX: "+clawX+" clawY: "+clawY);
+
+    }
+
+    //hàm checkCatch có chức năng kiểm tra xem có bắt được vật thể trên đường di chuyển không:
+    public void runAndCatch() {
+
+    }
+
+    //hàm pullUp có chức năng thực hiện kéo lên vật thể đã bắt được:
+    public void pullUp() {
+
+    }
+
+    //hàm updateImage có chức năng cập nhật hình ảnh của kẹp tuỳ theo trường hợp:
+    public void updateImage( ImageView clawView) {
+        Rotate rotate = new Rotate();
+        rotate.setPivotX(centerX);
+        //lấy ra toạ độ y=110 trong pane
+        rotate.setPivotY(centerY);
+        //quay 1 góc angle - preAngle (radian)
+        rotate.setAngle(angle - preAngle);
+        clawView.getTransforms().add(rotate);
+        
+        //thế quái nào cái này nó lại dùng degrees chứ không phải radian :))
+        clawView.setRotate(clawView.getRotate()-Math.toDegrees(angle - preAngle));
+
+        clawView.setLayoutX(clawX - clawImage.getWidth()*0.25/2);
+        clawView.setLayoutY(clawY - clawImage.getHeight()*0.25/2);
+        
+    }
 }

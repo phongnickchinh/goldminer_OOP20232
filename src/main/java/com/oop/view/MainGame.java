@@ -1,5 +1,16 @@
 package com.oop.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.oop.model.Claw;
+import com.oop.model.Diamond;
+import com.oop.model.GameObject;
+import com.oop.model.Gold;
+import com.oop.model.Mole;
+import com.oop.model.Rock;
+import com.oop.model.Ruby;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,21 +22,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.oop.Main;
-import com.oop.model.Boom;
-import com.oop.model.Claw;
-import com.oop.model.Diamond;
-import com.oop.model.GameObject;
-import com.oop.model.Gold;
-import com.oop.model.Mole;
-import com.oop.model.Rock;
-import com.oop.model.Ruby;
 
 public class MainGame extends Application {
 
@@ -51,13 +50,30 @@ public class MainGame extends Application {
     public void start(Stage primaryStage) {
         root = new Pane();
         Scene scene = new Scene(root, 657, 480);
+        int gridSize = 10;
+        for (int y = 0; y <= 480; y += gridSize) {
+
+            //vẽ các đường ngang màu trắng
+            Line line = new Line(0, y, 657, y);
+            line.setStrokeWidth(0.5);
+            line.setStroke(javafx.scene.paint.Color.WHITE);
+            root.getChildren().add(line);
+            
+        }
+
+        for (int x = 0; x <= 657; x += gridSize) {
+            //vẽ các đường dọc màu trắng
+            Line line = new Line(x, 0, x, 480);
+            line.setStrokeWidth(0.5);
+            line.setStroke(javafx.scene.paint.Color.WHITE);
+            root.getChildren().add(line);
+        }
+        //không cho phép thay đổi kích thước cửa sổ
+        primaryStage.setResizable(false);
         root.setStyle("-fx-background-image: url('file:src/main/resources/image/background/mainGame_background.png'); -fx-background-size: cover;");
-        Image robot =new Image("file:src/main/resources/image/Claw/robot_only_1h.png");
-        ImageView robotView = new ImageView(robot);
-        robotView.setFitWidth(100/Main.scale);
-        robotView.setFitHeight(100/Main.scale);
-        robotView.setLayoutX(300);
-        robotView.setLayoutY(300);
+
+        //make animation
+
 
         scoreLabel = new Label("Score: 0");
         scoreLabel.setLayoutX(10);
@@ -70,24 +86,64 @@ public class MainGame extends Application {
         timeLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
 
         levelLabel = new Label("Level: 1");
-        levelLabel.setLayoutX(500);
+        levelLabel.setLayoutX(657);
         levelLabel.setLayoutY(10);
         levelLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
 
         targetScoreLabel = new Label("Target: 100");
-        targetScoreLabel.setLayoutX(500);
+        targetScoreLabel.setLayoutX(root.getWidth());
         targetScoreLabel.setLayoutY(50);
         targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
 
-        root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel, robotView);
+
+        //in ra
+
+        //vị tri ban đầu của cần cẩu cách moveX và moveY so với tâm của robot
+
+
+        //Vẽ line từ tâm musle đến tâm claw, những phần bị đè lên bởi claw không vẽ
+
+        root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel);
 
         primaryStage.setTitle("Gem_miner_OOP20232");
         primaryStage.setScene(scene);
         primaryStage.show();
 
         startLevel();
+        
     }
 
+    private List<Image> addRobot(){
+        Image robot =new Image("file:src/main/resources/image/Claw/robot_only_1h.png");
+        Image muscle =new Image("file:src/main/resources/image/Claw/muscle.png");
+        ImageView robotView = new ImageView(robot);
+        ImageView muscleView = new ImageView(muscle);
+        robotView.setFitHeight(robot.getHeight()*0.25);
+        robotView.setFitWidth(robot.getWidth()*0.25);
+        muscleView.setFitHeight(muscle.getHeight()*0.25);
+        muscleView.setFitWidth(muscle.getWidth()*0.25);
+
+        robotView.setLayoutX(root.getWidth()/2-robot.getWidth()*0.25/2);
+        robotView.setLayoutY(20);
+        muscleView.setLayoutX(root.getWidth()/2-muscle.getWidth()*0.25/2-33);
+        muscleView.setLayoutY(20+robot.getHeight()*0.25-50);
+        root.getChildren().addAll(robotView, muscleView);
+        List<Image> list = new ArrayList<>();
+        list.add(robot);
+        list.add(muscle);
+        return list;
+    }
+
+    private ImageView addClaw(){
+        Image clawImage =new Image("file:src/main/resources/image/Claw/robot_hand.png");
+        ImageView clawView = new ImageView(clawImage);
+        clawView.setFitHeight(clawImage.getHeight()*0.25);
+        clawView.setFitWidth(clawImage.getWidth()*0.25);
+        clawView.setLayoutX(295.5-clawImage.getWidth()*0.25/2);
+        clawView.setLayoutY(91.5-clawImage.getHeight()*0.25/2);
+        root.getChildren().add(clawView);
+        return clawView;
+    }
     private void addDiamond(int count, int minRange, int maxRange, int kind) {
         for (int i = 0; i < count; i++) {
             int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
@@ -160,7 +216,9 @@ public class MainGame extends Application {
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
 
             Mole mole = new Mole(x, y, x - 200, y + 50, 0);
+            
             ImageView imageView = mole.getImageView(1);
+            mole.move(imageView, kind);
             imageView.setFitWidth(20);
             imageView.setFitHeight(10);
             imageView.setLayoutX(x);
@@ -217,14 +275,22 @@ public class MainGame extends Application {
         gameTimeline.setCycleCount(Timeline.INDEFINITE);
         gameTimeline.play();
 
-        // Clear previous objects
+        // Clear previous objects except the robot, muscle, and claw
         root.getChildren().removeIf(node -> node instanceof ImageView);
+        try {
+            lisst.clear();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+
 
         if (currentLevel == 0){
             addRock(3, 150, 450, 1);
             addRock(2, 150, 450, 0);
             addGold(3, 150, 450, 1);
             addGold(5, 150, 450, 0);
+            System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 1){
             addGold(2, 150, 460, 2);
@@ -232,6 +298,7 @@ public class MainGame extends Application {
             addGold(3, 150, 460, 1);
             addRock(3, 150, 450, 0);
             addRock(2, 150, 450, 1);
+            System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 2){
             addRock(3, 140, 460, 0);
@@ -240,6 +307,7 @@ public class MainGame extends Application {
             addGold(3, 150, 450, 0);
             addGold(3, 150, 450, 2);
             addDiamond(2, 100, 500, 1);
+            System.out.println("number of object: "+lisst.size());
         }
 
         else if (currentLevel == 3){
@@ -251,6 +319,7 @@ public class MainGame extends Application {
             addGold(5, 150, 450, 0);
             addDiamond(4, 150, 450, 1);
             addRuby(3, 150, 450, 1);
+            System.out.println("number of object: "+lisst.size());
         }
 
         else if (currentLevel == 4){
@@ -261,11 +330,42 @@ public class MainGame extends Application {
             addGold(5, 140, 450, 1);
             addGold(5, 140, 450, 0);
             addDiamond(3, 150, 450, 1);
+            System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 5){
             addMole(5, 100, 460, 0);
             addDiamond(8, 150, 450, 1);
+            System.out.println("number of object: "+lisst.size());
         }
+        List<Image> list = addRobot();
+        Image robot = list.get(0);
+        Image muscle = list.get(1);
+
+        //make claw
+        Claw claw = new Claw(root);
+        ImageView clawView = addClaw();
+        AnimationTimer timer = new AnimationTimer() {
+            Line line = new Line();
+            @Override
+            public void handle(long now) {
+                claw.move();
+                claw.updateImage(clawView);
+                //xoá line cũ
+                root.getChildren().remove(line);
+                //vẽ line mới
+                line.setStartX(root.getWidth()/2-33);
+                line.setStartY(20+robot.getHeight()*0.25-50+muscle.getHeight()*0.25/2);
+                line.setEndX(claw.getX());
+                line.setEndY(claw.getY());
+                line.setStrokeWidth(2);
+                //vẽ theo màu tuỳ chỉnh #3B385C
+                line.setStroke(javafx.scene.paint.Color.rgb(59, 56, 92));
+                //in ra điểm đâu và điểm cuối sợi dây
+                root.getChildren().add(line);
+            }
+        };
+        timer.start();
+
     }
 
     private void updateGame() {

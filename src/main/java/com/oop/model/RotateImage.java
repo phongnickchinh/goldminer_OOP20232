@@ -30,6 +30,9 @@ public class RotateImage {
         Rotate rotate = new Rotate(angle, imageView.getFitWidth() , imageView.getFitHeight() );
         imageView.getTransforms().add(rotate);
 
+        //nền xanh
+        // imageView.setStyle("-fx-background-color: #0000FF;");
+
         // Tạo hình ảnh mới bằng phương pháp snapshot sau khi đặt kích thước mới
         return imageView.snapshot(params, null);
     }

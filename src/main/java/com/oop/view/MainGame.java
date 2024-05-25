@@ -170,8 +170,10 @@ public class MainGame extends Application {
         return clawView;
     }
     private void addDiamond(int count, int minRange, int maxRange, int kind) {
+        int minRangeX = minRange - 100;
+        int maxRangeX = maxRange + 100;
         for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Diamond diamond = new Diamond(x, y, kind);
             //add to game object list to handle collision
@@ -194,8 +196,10 @@ public class MainGame extends Application {
     }
 
     private void addGold(int count, int minRange, int maxRange, int kind) {
+        int minRangeX = minRange - 100;
+        int maxRangeX = maxRange + 100;
         for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Gold gold = new Gold(x, y, kind);
             //add to game object list to handle collision
@@ -218,8 +222,10 @@ public class MainGame extends Application {
     }
 
     private void addRock(int count, int minRange, int maxRange, int kind) {
+        int minRangeX = minRange - 100;
+        int maxRangeX = maxRange + 100;
         for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Rock rock = new Rock(x, y, kind);
             //add to game object list to handle collision
@@ -242,8 +248,10 @@ public class MainGame extends Application {
     }
 
     private void addMole(int count, int minRange, int maxRange, int kind) {
+        int minRangeX = minRange - 100;
+        int maxRangeX = maxRange + 100;
         for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
 
             Mole mole = new Mole(x, y, x - 200, y + 50, 0);
@@ -269,8 +277,10 @@ public class MainGame extends Application {
     }
 
     private void addRuby(int count, int minRange, int maxRange, int kind) {
+        int minRangeX = minRange - 100;
+        int maxRangeX = maxRange + 100;
         for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Ruby ruby = new Ruby(x, y, kind);
             //add to game object list to handle collision
@@ -292,8 +302,10 @@ public class MainGame extends Application {
         }
     }
 
+
+
     private void startLevel() {
-        timeRemaining = 30; 
+        timeRemaining = 60; 
         currentScore = 0; 
         updateScore();
         updateTime();
@@ -323,52 +335,52 @@ public class MainGame extends Application {
             addRock(2, 150, 450, 0);
             addGold(3, 150, 450, 1);
             addGold(5, 150, 450, 0);
-            System.out.println("number of object: "+lisst.size());
+            //System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 1){
-            addGold(2, 150, 460, 2);
-            addGold(3, 150, 460, 0);
-            addGold(3, 150, 460, 1);
+            addGold(2, 150, 450, 2);
+            addGold(3, 150, 450, 0);
+            addGold(3, 150, 450, 1);
             addRock(3, 150, 450, 0);
             addRock(2, 150, 450, 1);
-            System.out.println("number of object: "+lisst.size());
+            //System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 2){
-            addRock(3, 140, 460, 0);
-            addRock(3, 140, 470, 1);
+            addRock(3, 150, 450, 0);
+            addRock(3, 150, 450, 1);
             addGold(3, 150, 450, 1);
             addGold(3, 150, 450, 0);
             addGold(3, 150, 450, 2);
-            addDiamond(2, 100, 500, 1);
-            System.out.println("number of object: "+lisst.size());
+            addDiamond(2, 150, 450, 1);
+            //System.out.println("number of object: "+lisst.size());
         }
 
         else if (currentLevel == 3){
 
-            addMole(3, 140, 460, 0);
-            addRock(3, 140, 460, 0);
-            addRock(3, 140, 470, 1);
-            addGold(3, 140, 450, 1);
+            addMole(3, 150, 450, 0);
+            addRock(3, 150, 450, 0);
+            addRock(3, 150, 450, 1);
+            addGold(3, 150, 450, 1);
             addGold(5, 150, 450, 0);
             addDiamond(4, 150, 450, 1);
             addRuby(3, 150, 450, 1);
-            System.out.println("number of object: "+lisst.size());
+            //System.out.println("number of object: "+lisst.size());
         }
 
         else if (currentLevel == 4){
-            addMole(4, 100, 460, 10);
+            addMole(4, 150, 450, 0);
             addRuby(3, 150, 450, 0);
-            addRock(4, 140, 460, 0);
-            addRock(3, 140, 460, 1);
-            addGold(5, 140, 450, 1);
-            addGold(5, 140, 450, 0);
+            addRock(4, 150, 450, 0);
+            addRock(3, 150, 450, 1);
+            addGold(5, 150, 450, 1);
+            addGold(5, 150, 450, 0);
             addDiamond(3, 150, 450, 1);
-            System.out.println("number of object: "+lisst.size());
+            //System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 5){
             addMole(5, 100, 460, 0);
             addDiamond(8, 150, 450, 1);
-            System.out.println("number of object: "+lisst.size());
+            //System.out.println("number of object: "+lisst.size());
         }
 
 
@@ -419,34 +431,35 @@ public class MainGame extends Application {
         if (timeRemaining >= 1) timeRemaining--;
         if(timeRemaining<=9&& timeRemaining>8){
             if(!isSoundPlaying){
-            PlayMusic ingame = new PlayMusic();
-            ingame.SetMusicPath("src/main/resources/music/ingame.wav");
-            ingame.run();
+                PlayMusic ingame = new PlayMusic();
+                ingame.SetMusicPath("src/main/resources/music/ingame.wav");
+                ingame.run();
             }
         }
         updateTime();
-
+    
         if (timeRemaining <= 0) {
             if (currentScore >= TARGET_SCORES[currentLevel]) {
-                if(currentLevel<5){
-                if(!isSoundPlaying){
-                    PlayMusic victoryRound = new PlayMusic();
-                    victoryRound.SetMusicPath("src/main/resources/music/victoryRound.wav");
-                    victoryRound.run();
-                    isSoundPlaying = true;
+                if(currentLevel < 5){
+                    if(!isSoundPlaying){
+                        PlayMusic victoryRound = new PlayMusic();
+                        victoryRound.SetMusicPath("src/main/resources/music/victoryRound.wav");
+                        victoryRound.run();
+                        isSoundPlaying = true;
                     }
-                }
-                currentLevel++;
-                if (currentLevel < NUM_LEVELS) {
+                    currentLevel++;
+                    System.out.println(currentLevel);
                     showLevelCompletedMessage();
                 } else {
                     // Player has completed all levels
-                    PlayMusic victoryFinal = new PlayMusic();
-                    victoryFinal.SetMusicPath("src/main/resources/music/victoryFinal.MP3");
-                    victoryFinal.run();
+                    if (!isSoundPlaying) {
+                        PlayMusic victoryFinal = new PlayMusic();
+                        victoryFinal.SetMusicPath("src/main/resources/music/victoryFinal.MP3");
+                        victoryFinal.run();
+                        isSoundPlaying = true;
+                    }
                     gameTimeline.stop();
-                    victoryFinal.stopMusic();
-                    showEndMessage("Congratulations! You've completed all levels!");
+                    showFinalWinMessage();
                 }
             } else {
                 // Game over
@@ -457,6 +470,41 @@ public class MainGame extends Application {
                 showEndMessage("Game Over! You did not reach the target score.");
             }
         }
+    }
+    
+
+    private void showFinalWinMessage() {
+        // Dừng tất cả tương tác trên màn hình
+        root.setDisable(true);
+    
+        // Create a full-screen overlay
+        StackPane overlay = new StackPane();
+        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
+        overlay.setPrefSize(657, 480);
+    
+        VBox messageBox = new VBox();
+        messageBox.setStyle("-fx-alignment: center; -fx-spacing: 20px;");
+    
+        ImageView finalWinPopup = new ImageView(new Image("file:src/main/resources/image/popup/last_win_popup.png"));
+        finalWinPopup.setFitWidth(450);
+        finalWinPopup.setFitHeight(300);
+    
+        Label messageLabel = new Label("Congratulations! You've completed all levels!");
+        messageLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;");
+    
+        Label exitMessageLabel = new Label("Click 'X' to exit the game");
+        exitMessageLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;");
+    
+        messageBox.getChildren().addAll(finalWinPopup, messageLabel, exitMessageLabel);
+        overlay.getChildren().add(messageBox);
+    
+        root.getChildren().add(overlay);
+    
+        // Thêm sự kiện để thoát khi nhấn vào overlay
+        overlay.setOnMouseClicked(event -> {
+            Stage stage = (Stage) root.getScene().getWindow();
+            stage.close();
+        });
     }
 
     private void updateScore() {

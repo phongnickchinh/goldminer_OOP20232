@@ -142,11 +142,12 @@ public class Claw {
         rotate.setPivotX(centerX);
         //lấy ra toạ độ y=110 trong pane
         rotate.setPivotY(centerY);
-        //quay 1 góc angle - preAngle (radian)
+
+        //quay 1 góc angle - preAngle (cái này dùng radian)
         rotate.setAngle(angle - preAngle);
         clawView.getTransforms().add(rotate);
         
-        //thế quái nào cái này nó lại dùng degrees chứ không phải radian :))
+        //thế quái nào cái này nó lại dùng degrees :))
         clawView.setRotate(clawView.getRotate()-Math.toDegrees(angle - preAngle));
 
         clawView.setLayoutX(clawX - clawImage.getWidth()*0.25/2);

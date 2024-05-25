@@ -78,30 +78,24 @@ public class MainGame extends Application {
         scoreLabel = new Label("Score: 0");
         scoreLabel.setLayoutX(10);
         scoreLabel.setLayoutY(10);
-        scoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
+        scoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold");
 
         timeLabel = new Label("Time: 60");
         timeLabel.setLayoutX(10);
         timeLabel.setLayoutY(50);
-        timeLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
+        timeLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold");
 
         levelLabel = new Label("Level: 1");
-        levelLabel.setLayoutX(657);
+        levelLabel.setLayoutX(500);
         levelLabel.setLayoutY(10);
-        levelLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
+        levelLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold");
 
         targetScoreLabel = new Label("Target: 100");
-        targetScoreLabel.setLayoutX(root.getWidth());
+        targetScoreLabel.setLayoutX(500);
         targetScoreLabel.setLayoutY(50);
-        targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
+        targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold");
 
 
-        //in ra
-
-        //vị tri ban đầu của cần cẩu cách moveX và moveY so với tâm của robot
-
-
-        //Vẽ line từ tâm musle đến tâm claw, những phần bị đè lên bởi claw không vẽ
 
         root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel);
 

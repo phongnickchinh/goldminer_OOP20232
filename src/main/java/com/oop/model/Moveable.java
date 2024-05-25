@@ -1,4 +1,7 @@
 package com.oop.model;
+import java.util.Random;
+
+import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -7,7 +10,7 @@ import javafx.util.Duration;
 //import java.util.Random;
 public class Moveable extends GameObject{
 
-    private int dir; // 0 hướng trái, 1 hướng phải
+    private boolean dir; // 0 hướng trái, 1 hướng phải
     private int left;
     private int right;
     private final Image itemImg;
@@ -18,10 +21,11 @@ public class Moveable extends GameObject{
 
     public Moveable(int xx, int yy, String imgPath, String imgPath2, String imgPath3, String imgPath4, int val, int size, int l, int r, double speed) {
         super(xx, yy, imgPath, imgPath2, val, size, speed);
-        dir = (int) (Math.random() * 2);
+        //dir random 2 values: false (0) and true (1)
+        dir = new Random().nextBoolean();
         left = l;
         right = r;
-        if (dir == 0) {
+        if (!dir) {
             itemImg = new Image(imgPath);
             itemImgAnother = new Image( imgPath3);
             caughtImg = new Image(imgPath2);
@@ -40,25 +44,33 @@ public class Moveable extends GameObject{
         imageView.setFitHeight(size);
     }
 
-    public void move(ImageView mouseImageView, double speed) {
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds((right-left)/speed/10), mouseImageView);
-        translateTransition.setFromX(left);  // vị trí bắt đầu
-        translateTransition.setToX(right);    // vị trí kết thúc
-        translateTransition.setCycleCount(TranslateTransition.INDEFINITE);  // lặp vô hạn
-
-        translateTransition.setAutoReverse(true);  // tự động quay ngược lại
-        //khi quay ngược lại thì hình ảnh cũng phải quay ngược lại
-        translateTransition.setOnFinished(e -> {
-            if (dir == 0) {
-                dir = 1;
-                imageView.setImage(itemImg);
+    public void move(ImageView moleView, double speed) {
+        System.out.println("this method is called");
+        Image mole = itemImg;
+        Image mole_reverse = itemImgAnother;
+        TranslateTransition translate = new TranslateTransition();
+        translate.setByX(this.X-this.X/2);
+        //cài đặt thời gian dịch chuyển mỗi nửa chu kỳ
+        translate.setDuration(Duration.millis(speed*1000));
+        //mỗi khi hết 1 lượt dịch chuyển thì thay đổi hình ảnh và tiếp tục dịch chuyển
+        translate.setNode(moleView);
+        translate.play();
+        translate.setOnFinished(e -> {
+            if (!this.dir) {
+                moleView.setImage(mole_reverse);
             } else {
-                dir = 0;
-                imageView.setImage(itemImgAnother);
+                moleView.setImage(mole);
             }
+            translate.setByX(-translate.getByX());
+            translate.play();
         });
-        // Bắt đầu hoạt ảnh
-        translateTransition.play();
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                System.out.println("X: " + moleView.getTranslateX());
+            }
+        };
+        timer.start();
     }
 
 
@@ -66,7 +78,7 @@ public class Moveable extends GameObject{
         //nếu vật thể đang được gắp lên
         if (caughtFlag) {
             //nếu hướng của vật thể là 1 (phải) thì hiển thị hình ảnh caughtImg
-            if (dir == 1) {
+            if (dir) {
                 imageView.setImage(caughtImg);
             //nếu hướng của vật thể là 0 (trái) thì hiển thị hình ảnh caughtImgAnother
             } else {
@@ -75,7 +87,7 @@ public class Moveable extends GameObject{
             //nếu vật thể không được gắp lên
         } else {
             //nếu hướng của vật thể là 1 (phải) thì hiển thị hình ảnh itemImg
-            if (dir == 1) {
+            if (dir) {
                 imageView.setImage(itemImg);
             //nếu hướng của vật thể là 0 (trái) thì hiển thị hình ảnh itemImgAnother
             } else {
@@ -95,15 +107,15 @@ public class Moveable extends GameObject{
 
     @Override
     public ImageView getImageView(double d) {
-       
-        throw new UnsupportedOperationException("Unimplemented method 'getImageView'");
+        ImageView imageView = new ImageView(getImg(d));
+        return imageView;
     }
 
-    public int getDir() {
+    public boolean getDir() {
         return dir;
     }
 
-    public void setDir(int dir) {
+    public void setDir(boolean dir) {
         this.dir = dir;
     }
 

@@ -48,25 +48,27 @@ public class MainGame extends Application {
     @SuppressWarnings("exports")
     @Override
     public void start(Stage primaryStage) {
+        
         root = new Pane();
+        
         Scene scene = new Scene(root, 657, 480);
         int gridSize = 10;
         for (int y = 0; y <= 480; y += gridSize) {
 
             //vẽ các đường ngang màu trắng
-            Line line = new Line(0, y, 657, y);
-            line.setStrokeWidth(0.5);
-            line.setStroke(javafx.scene.paint.Color.WHITE);
-            root.getChildren().add(line);
+        //     Line line = new Line(0, y, 657, y);
+        //     line.setStrokeWidth(0.5);
+        //     line.setStroke(javafx.scene.paint.Color.WHITE);
+        //     root.getChildren().add(line);
             
-        }
+        // }
 
-        for (int x = 0; x <= 657; x += gridSize) {
-            //vẽ các đường dọc màu trắng
-            Line line = new Line(x, 0, x, 480);
-            line.setStrokeWidth(0.5);
-            line.setStroke(javafx.scene.paint.Color.WHITE);
-            root.getChildren().add(line);
+        // for (int x = 0; x <= 657; x += gridSize) {
+        //     //vẽ các đường dọc màu trắng
+        //     Line line = new Line(x, 0, x, 480);
+        //     line.setStrokeWidth(0.5);
+        //     line.setStroke(javafx.scene.paint.Color.WHITE);
+        //     root.getChildren().add(line);
         }
         //không cho phép thay đổi kích thước cửa sổ
         primaryStage.setResizable(false);
@@ -76,24 +78,24 @@ public class MainGame extends Application {
 
 
         scoreLabel = new Label("Score: 0");
-        scoreLabel.setLayoutX(10);
-        scoreLabel.setLayoutY(10);
-        scoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
+        scoreLabel.setLayoutX(400);
+        scoreLabel.setLayoutY(20);
+        scoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold");
 
         timeLabel = new Label("Time: 60");
-        timeLabel.setLayoutX(10);
-        timeLabel.setLayoutY(50);
-        timeLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
+        timeLabel.setLayoutX(400);
+        timeLabel.setLayoutY(60);
+        timeLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold");
 
         levelLabel = new Label("Level: 1");
-        levelLabel.setLayoutX(657);
-        levelLabel.setLayoutY(10);
-        levelLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
+        levelLabel.setLayoutX(520);
+        levelLabel.setLayoutY(60);
+        levelLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold");
 
         targetScoreLabel = new Label("Target: 100");
-        targetScoreLabel.setLayoutX(root.getWidth());
-        targetScoreLabel.setLayoutY(50);
-        targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold");
+        targetScoreLabel.setLayoutX(520);
+        targetScoreLabel.setLayoutY(20);
+        targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold");
 
 
         //in ra

@@ -118,11 +118,11 @@ public class Claw {
         if(angle>Math.PI/2 || angle<-Math.PI/2){
             spinDirection *= -1;
         }
-        System.out.println("angle: "+angle);
+        //System.out.println("angle: "+angle);
         //cập nhật tọa độ của kẹp
         clawX =firstX+radius*Math.sin(angle);
         clawY =firstY-radius*(1-Math.cos(angle));
-        System.out.println("clawX: "+clawX+" clawY: "+clawY);
+       // System.out.println("clawX: "+clawX+" clawY: "+clawY);
 
     }
 

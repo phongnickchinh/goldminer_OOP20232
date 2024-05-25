@@ -13,10 +13,10 @@ public class Moveable extends GameObject{
     private boolean dir; // 0 hướng trái, 1 hướng phải
     private int left;
     private int right;
-    private final Image itemImg;
-    private final Image itemImgAnother;
-    private final Image caughtImg;
-    private final Image caughtImgAnother;
+    private final Image itemImg; //image when item is not caught
+    private final Image itemImgAnother; // image reverse of itemImg
+    private final Image caughtImg; //image when item is caught
+    private final Image caughtImgAnother; // image reverse of caughtImg
     private final ImageView imageView;
 
     public Moveable(int xx, int yy, String imgPath, String imgPath2, String imgPath3, String imgPath4, int val, int size, int l, int r, double speed) {
@@ -25,16 +25,16 @@ public class Moveable extends GameObject{
         dir = new Random().nextBoolean();
         left = l;
         right = r;
-        if (!dir) {
+        if (dir) {
             itemImg = new Image(imgPath);
-            itemImgAnother = new Image( imgPath3);
-            caughtImg = new Image(imgPath2);
+            itemImgAnother = new Image( imgPath2);
+            caughtImg = new Image(imgPath3);
             caughtImgAnother = new Image(imgPath4);
         }
         else {
             itemImg = new Image(imgPath2);
-            itemImgAnother = new Image(imgPath4);
-            caughtImg = new Image(imgPath);
+            itemImgAnother = new Image(imgPath);
+            caughtImg = new Image(imgPath4);
             caughtImgAnother = new Image(imgPath3);
         }
 

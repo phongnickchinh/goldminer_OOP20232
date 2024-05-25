@@ -1,6 +1,8 @@
 package com.oop.model;
 import com.oop.Main;
+import com.oop.view.MainGame;
 
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -67,7 +69,7 @@ public class Claw {
         radius = Math.sqrt((firstX - centerX) * (firstX - centerX) + (firstY - centerY) * (firstY - centerY));
 
         // Khởi tạo tốc độ
-        stretchSpeed = 4;
+        stretchSpeed = 5;
         spinDirection = 1;
         stateFlag = 0;
         Item = null; //
@@ -75,6 +77,7 @@ public class Claw {
     
     // Sử dụng cho sự kiện lắng nghe bàn phím, nếu đang quay thì thả móc cẩu
     public void stretch() {
+        System.out.println("stretch");
         if (stateFlag == 0)
             stateFlag = 1;
         else
@@ -101,7 +104,8 @@ public class Claw {
         }
 
         if(stateFlag == 1){
-            this.runAndCatch();
+
+            int temp = this.runAndCatch();
         }
 
         if(stateFlag==2){
@@ -114,44 +118,97 @@ public class Claw {
     public void swing() {
         //cập nhật góc của kẹp
         preAngle = angle;
-        angle += 0.1 * spinDirection;
+        angle += 0.05 * spinDirection;
         if(angle>Math.PI/2 || angle<-Math.PI/2){
             spinDirection *= -1;
         }
-        System.out.println("angle: "+angle);
         //cập nhật tọa độ của kẹp
         clawX =firstX+radius*Math.sin(angle);
         clawY =firstY-radius*(1-Math.cos(angle));
-        System.out.println("clawX: "+clawX+" clawY: "+clawY);
 
     }
 
     //hàm checkCatch có chức năng kiểm tra xem có bắt được vật thể trên đường di chuyển không:
-    public void runAndCatch() {
+    public int runAndCatch() {
+        // System.out.println("runAndCatch");
+
+        //in lisst
+        System.out.println(MainGame.lisst.size());
+        preAngle = angle;
+        clawX += stretchSpeed * Math.sin(angle);
+        clawY += stretchSpeed * Math.cos(angle);
+
+        //nếu chạm đáy thì chuyển sang trạng thái kéo lên
+        if(clawX>657||clawX<0||clawY>480||clawY<0){
+            stateFlag = 2;
+        }
+
+        //kiểm tra danh sách vật thể xem có vật nào trùng với claw X, Y không
+        //thêm vào độ lớn của vật thể để họp lý hơn
+        for(GameObject item: MainGame.lisst){
+            if(clawX>item.getX()&&clawX<item.getX()+item.getSize()&&clawY>item.getY()&&clawY<item.getY()+item.getSize()){
+                System.out.println("catched");
+                this.Item = item;
+                item.caughtFlag=true;
+                stateFlag = 2;
+                //xoá vật thể khỏi danh sách
+                MainGame.lisst.remove(item);
+                //tìm kiếm imageview của vật thể và xoá nó khỏi root
+                for(Node e: root.getChildren()){
+                    if(e instanceof ImageView){
+                        if(((ImageView) e).getImage()==item.ItemImg){
+                            root.getChildren().remove(e);
+                            break;
+                        }
+                    }
+                }
+                return item.getVal();
+            }
+        }
+        return 0;
 
     }
 
     //hàm pullUp có chức năng thực hiện kéo lên vật thể đã bắt được:
     public void pullUp() {
+        // System.out.println("pullUp");
+        preAngle = angle;
+        clawX -= stretchSpeed * Math.sin(angle);
+        clawY -= stretchSpeed * Math.cos(angle);
+        if(clawY<=firstY){
+            clawY = firstY;
+            stateFlag = 0;
+            Item = null;
+        }
 
     }
 
     //hàm updateImage có chức năng cập nhật hình ảnh của kẹp tuỳ theo trường hợp:
     public void updateImage( ImageView clawView) {
-        Rotate rotate = new Rotate();
-        rotate.setPivotX(centerX);
-        //lấy ra toạ độ y=110 trong pane
-        rotate.setPivotY(centerY);
 
-        //quay 1 góc angle - preAngle (cái này dùng radian)
-        rotate.setAngle(angle - preAngle);
-        clawView.getTransforms().add(rotate);
-        
-        //thế quái nào cái này nó lại dùng degrees :))
-        clawView.setRotate(clawView.getRotate()-Math.toDegrees(angle - preAngle));
+        if(this.Item==null){
+            // System.out.println("not hehe");
+            clawView.setImage(this.clawImage);
+            Rotate rotate = new Rotate();
+            rotate.setPivotX(centerX);
+            rotate.setPivotY(centerY);
+            //quay 1 góc angle - preAngle (cái này dùng radian)
+            rotate.setAngle(angle - preAngle);
+            clawView.getTransforms().add(rotate);
+            //thế quái nào cái này nó lại dùng degrees :))
+            clawView.setRotate(clawView.getRotate()-Math.toDegrees(angle - preAngle));
+            System.out.println(clawImage.getWidth());
+            System.out.println(clawImage.getHeight());
+            clawView.setLayoutX(clawX - clawImage.getWidth()*0.25/2);
+            clawView.setLayoutY(clawY - clawImage.getHeight()*0.25/2);
+        }
+        else{
+            System.out.println("hehe");
+            clawView.setImage(Item.getImg(0.0));
 
-        clawView.setLayoutX(clawX - clawImage.getWidth()*0.25/2);
-        clawView.setLayoutY(clawY - clawImage.getHeight()*0.25/2);
+            clawView.setLayoutX(clawX - clawImage.getWidth()*0.25/2);
+            clawView.setLayoutY(clawY - clawImage.getHeight()*0.25/2);
+        }
         
     }
 }

@@ -23,15 +23,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 public class MainGame extends Application {
 
-    private static List<GameObject> lisst;
+    public static List<GameObject> lisst;
     static{
-        lisst =new ArrayList<>();
+        lisst = new ArrayList<>();
     };//lưu lại đối tượng ẩn vì móc kéo tượng tác với đối tượng thay vì imageview
     private static final int NUM_LEVELS = 6;
     private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 3000}; // Example target scores for each level
@@ -52,40 +53,50 @@ public class MainGame extends Application {
     public void start(Stage primaryStage) {
         
         root = new Pane();
-        ImageView scoreBoardImageView = new ImageView(new Image("file:src/main/resources/image/background/score_board.png"));
-scoreBoardImageView.setLayoutX(10); // Thiết lập vị trí theo trục X
-scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
+        //add score board
+        Image scoreBoard = new Image("file:src/main/resources/image/background/score_board.png");
+        Rectangle scoreBoardDraw = new Rectangle(400, 13, scoreBoard.getWidth()*0.5/Main.scale, scoreBoard.getHeight()*0.5/Main.scale);
+        scoreBoardDraw.setFill(new ImagePattern(scoreBoard));
+        root.getChildren().add(scoreBoardDraw);
         Scene scene = new Scene(root, 657, 480);
         int gridSize = 10;
         for (int y = 0; y <= 480; y += gridSize) {
 
             //vẽ các đường ngang màu trắng
-        //     Line line = new Line(0, y, 657, y);
-        //     line.setStrokeWidth(0.5);
-        //     line.setStroke(javafx.scene.paint.Color.WHITE);
-        //     root.getChildren().add(line);
+            Line line = new Line(0, y, 657, y);
+            line.setStrokeWidth(0.2);
+            line.setStroke(javafx.scene.paint.Color.WHITE);
+            root.getChildren().add(line);
             
-        // }
+        }
 
-        // for (int x = 0; x <= 657; x += gridSize) {
-        //     //vẽ các đường dọc màu trắng
-        //     Line line = new Line(x, 0, x, 480);
-        //     line.setStrokeWidth(0.5);
-        //     line.setStroke(javafx.scene.paint.Color.WHITE);
-        //     root.getChildren().add(line);
+        for (int x = 0; x <= 657; x += gridSize) {
+            //vẽ các đường dọc màu trắng
+            Line line = new Line(x, 0, x, 480);
+            line.setStrokeWidth(0.2);
+            line.setStroke(javafx.scene.paint.Color.WHITE);
+            root.getChildren().add(line);
         }
         //không cho phép thay đổi kích thước cửa sổ
-        Back = new Label("Back");
-        Back.setPrefSize(447/Main.scale, 364/Main.scale);
+        Back = new Label("Exit");
+        //thu nhỏ label startButton
+        Back.setPrefSize(10, 10);
         //set vị trí của label startButton
-        Back.setLayoutX(500);
-        Back.setLayoutY(350);
+        Back.setLayoutX(10);
+        Back.setLayoutY(0);
         Back.setOnMouseClicked(e -> {
+            //xoá cửa sổ mainGame
+            primaryStage.close();
+            //xoá sạch các đối tượng đã tạo
+            //dừng tất cả các method đang chạy
+            gameTimeline.stop();
+            //dừng các animation timer
+            lisst.removeAll(lisst);
             FisrtMenu turnFirst = new FisrtMenu();
             turnFirst.start(primaryStage);
         });
         //thêm background cho label là hình ảnh kích thước thật
-        Back.setStyle("-fx-background-image: url('file:src/main/resources/image/button/back/back_button_red.png'); -fx-background-size: 35% 35%; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-padding: 77px; -fx-font-size: 15px; -fx-text-fill: #103082; -fx-font-weight: bold; -fx-cursor: hand;");
+        Back.setStyle("-fx-background-image: url('file:src/main/resources/image/button/back/back_button_red.png'); -fx-background-size: 20% 20%; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-padding: 77px; -fx-font-size: 15px; -fx-text-fill: #103082; -fx-font-weight: bold; -fx-cursor: hand;");
         root.getChildren().add(Back);
         
         primaryStage.setResizable(false);
@@ -95,28 +106,28 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
 
 
         scoreLabel = new Label("Score: 0");
-        scoreLabel.setLayoutX(400);
-        scoreLabel.setLayoutY(20);
-        scoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold");
+        scoreLabel.setLayoutX(430);
+        scoreLabel.setLayoutY(30);
+        scoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: #103082; -fx-font-weight: bold");
 
         timeLabel = new Label("Time: 60");
-        timeLabel.setLayoutX(400);
-        timeLabel.setLayoutY(60);
-        timeLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold");
+        timeLabel.setLayoutX(430);
+        timeLabel.setLayoutY(50);
+        timeLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: #103082; -fx-font-weight: bold");
 
         levelLabel = new Label("Level: 1");
-        levelLabel.setLayoutX(520);
-        levelLabel.setLayoutY(60);
-        levelLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold");
+        levelLabel.setLayoutX(530);
+        levelLabel.setLayoutY(50);
+        levelLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: #103082; -fx-font-weight: bold");
 
         targetScoreLabel = new Label("Target: 100");
-        targetScoreLabel.setLayoutX(520);
-        targetScoreLabel.setLayoutY(20);
-        targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold");
+        targetScoreLabel.setLayoutX(530);
+        targetScoreLabel.setLayoutY(30);
+        targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: #103082; -fx-font-weight: bold");
 
 
 
-        root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel,scoreBoardImageView);
+        root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel);
 
         primaryStage.setTitle("Gem_miner_OOP20232");
         primaryStage.setScene(scene);
@@ -150,8 +161,9 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
     private ImageView addClaw(){
         Image clawImage =new Image("file:src/main/resources/image/Claw/robot_hand.png");
         ImageView clawView = new ImageView(clawImage);
-        clawView.setFitHeight(clawImage.getHeight()*0.25);
-        clawView.setFitWidth(clawImage.getWidth()*0.25);
+        clawView.setFitHeight(clawImage.getHeight()/1.5/Main.scale);
+        clawView.setFitWidth(clawImage.getWidth()/1.5/Main.scale);
+        System.out.println(clawImage.getWidth() + " " + clawImage.getHeight());
         clawView.setLayoutX(295.5-clawImage.getWidth()*0.25/2);
         clawView.setLayoutY(91.5-clawImage.getHeight()*0.25/2);
         root.getChildren().add(clawView);
@@ -162,6 +174,8 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
             int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Diamond diamond = new Diamond(x, y, kind);
+            //add to game object list to handle collision
+            lisst.add(diamond);
             ImageView imageView = diamond.getImageView(1);
             imageView.setFitWidth(20);
             imageView.setFitHeight(20);
@@ -184,6 +198,8 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
             int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Gold gold = new Gold(x, y, kind);
+            //add to game object list to handle collision
+            lisst.add(gold);
             ImageView imageView = gold.getImageView(1);
             imageView.setFitWidth((kind + 2) * 15);
             imageView.setFitHeight((kind + 2) * 15);
@@ -206,6 +222,8 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
             int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Rock rock = new Rock(x, y, kind);
+            //add to game object list to handle collision
+            lisst.add(rock);
             ImageView imageView = rock.getImageView(1);
             imageView.setFitWidth((kind + 2) * 15);
             imageView.setFitHeight((kind + 2)*15);
@@ -229,7 +247,7 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
 
             Mole mole = new Mole(x, y, x - 200, y + 50, 0);
-            
+            lisst.add(mole);
             ImageView imageView = mole.getImageView(1);
             mole.move(imageView, kind);
             imageView.setFitWidth(20);
@@ -255,6 +273,8 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
             int x = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Ruby ruby = new Ruby(x, y, kind);
+            //add to game object list to handle collision
+            lisst.add(ruby);
             ImageView imageView = ruby.getImageView(1);
             imageView.setFitWidth(25);
             imageView.setFitHeight(25);
@@ -288,7 +308,7 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
         gameTimeline.setCycleCount(Timeline.INDEFINITE);
         gameTimeline.play();
 
-        // Clear previous objects except the robot, muscle, and claw
+        // Clear previous objects except the robot, muscle, and claw except scoreBoardView
         root.getChildren().removeIf(node -> node instanceof ImageView);
         try {
             lisst.clear();
@@ -336,7 +356,7 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
         }
 
         else if (currentLevel == 4){
-            addMole(4, 100, 460, 0);
+            addMole(4, 100, 460, 10);
             addRuby(3, 150, 450, 0);
             addRock(4, 140, 460, 0);
             addRock(3, 140, 460, 1);
@@ -350,19 +370,29 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
             addDiamond(8, 150, 450, 1);
             System.out.println("number of object: "+lisst.size());
         }
+
+
         List<Image> list = addRobot();
         Image robot = list.get(0);
         Image muscle = list.get(1);
 
+
+
         //make claw
         Claw claw = new Claw(root);
         ImageView clawView = addClaw();
+
+        //make animation claw
         AnimationTimer timer = new AnimationTimer() {
             Line line = new Line();
             @Override
             public void handle(long now) {
+                System.out.println(lisst.size());
                 claw.move();
                 claw.updateImage(clawView);
+                root.setOnMouseClicked(e->{
+                    claw.stretch();
+                });
                 //xoá line cũ
                 root.getChildren().remove(line);
                 //vẽ line mới
@@ -378,6 +408,10 @@ scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
             }
         };
         timer.start();
+
+        //call stretch() when down key is pressed
+        
+
 
     }
 

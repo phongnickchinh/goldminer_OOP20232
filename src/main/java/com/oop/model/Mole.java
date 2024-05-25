@@ -7,7 +7,7 @@ public class Mole extends Moveable{
     public static final String[] IMG_PATHS2 = { "file:src/main/resources/image/Mole/rego_left_mole.png", "file:src/main/resources/image/Mole/rego_left_diamondmole.png"};
     public static final String[] IMG_PATHS3 = { "file:src/main/resources/image/Mole/go_right_mole.png", "file:src/main/resources/image/Mole/rego_right_mole.png"};
     public static final String[] IMG_PATHS4 = { "file:src/main/resources/image/Mole/go_right_diamondmole.png", "file:src/main/resources/image/Mole/rego_right_diamondmole.png"};
-    public static final int[] SPEED = { 4, 4};
+    public static final int[] SPEED = { 10, 10};
     
     public Mole(int xx, int yy, int Left, int Right, int kind) {
         super(xx, yy, IMG_PATHS[kind], IMG_PATHS2[kind], IMG_PATHS3[kind], IMG_PATHS4[kind], VAL[kind],  SPEED[kind], Left, Right,SIZE[kind]);

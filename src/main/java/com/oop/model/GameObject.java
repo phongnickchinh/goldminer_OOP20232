@@ -53,7 +53,7 @@ public abstract class GameObject {
     public void update() {
     }
 
-    public int size2() {
+    public int getSize() {
         return Size;
     }
 

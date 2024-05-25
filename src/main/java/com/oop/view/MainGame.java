@@ -42,6 +42,7 @@ public class MainGame extends Application {
     private Label timeLabel;
     private Label levelLabel;
     private Label targetScoreLabel;
+    private Label Back;
     private Pane root;
     private boolean isSoundPlaying = false;
 
@@ -50,7 +51,6 @@ public class MainGame extends Application {
     public void start(Stage primaryStage) {
         
         root = new Pane();
-        
         Scene scene = new Scene(root, 657, 480);
         int gridSize = 10;
         for (int y = 0; y <= 480; y += gridSize) {
@@ -71,6 +71,12 @@ public class MainGame extends Application {
         //     root.getChildren().add(line);
         }
         //không cho phép thay đổi kích thước cửa sổ
+        Back = new Label("Back");
+        Back.setLayoutX(50);
+        Back.setLayoutY(30);
+        Back.setStyle("-fc-background-image: url('file:src/main/resources/image/button/back/back_button.png'); -fx-background-size: 100% 100%; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-padding: 10px; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold; -fx-cursor: hand;");
+        root.getChildren().add(Back);
+        
         primaryStage.setResizable(false);
         root.setStyle("-fx-background-image: url('file:src/main/resources/image/background/mainGame_background.png'); -fx-background-size: cover;");
 

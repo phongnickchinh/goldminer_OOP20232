@@ -3,6 +3,7 @@ package com.oop.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.oop.Main;
 import com.oop.model.Claw;
 import com.oop.model.Diamond;
 import com.oop.model.GameObject;
@@ -51,6 +52,9 @@ public class MainGame extends Application {
     public void start(Stage primaryStage) {
         
         root = new Pane();
+        ImageView scoreBoardImageView = new ImageView(new Image("file:src/main/resources/image/background/score_board.png"));
+scoreBoardImageView.setLayoutX(10); // Thiết lập vị trí theo trục X
+scoreBoardImageView.setLayoutY(10); // Thiết lập vị trí theo trục Y
         Scene scene = new Scene(root, 657, 480);
         int gridSize = 10;
         for (int y = 0; y <= 480; y += gridSize) {
@@ -72,9 +76,16 @@ public class MainGame extends Application {
         }
         //không cho phép thay đổi kích thước cửa sổ
         Back = new Label("Back");
-        Back.setLayoutX(50);
-        Back.setLayoutY(30);
-        Back.setStyle("-fc-background-image: url('file:src/main/resources/image/button/back/back_button.png'); -fx-background-size: 100% 100%; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-padding: 10px; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold; -fx-cursor: hand;");
+        Back.setPrefSize(447/Main.scale, 364/Main.scale);
+        //set vị trí của label startButton
+        Back.setLayoutX(500);
+        Back.setLayoutY(350);
+        Back.setOnMouseClicked(e -> {
+            FisrtMenu turnFirst = new FisrtMenu();
+            turnFirst.start(primaryStage);
+        });
+        //thêm background cho label là hình ảnh kích thước thật
+        Back.setStyle("-fx-background-image: url('file:src/main/resources/image/button/back/back_button_red.png'); -fx-background-size: 35% 35%; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-padding: 77px; -fx-font-size: 15px; -fx-text-fill: #103082; -fx-font-weight: bold; -fx-cursor: hand;");
         root.getChildren().add(Back);
         
         primaryStage.setResizable(false);
@@ -105,7 +116,7 @@ public class MainGame extends Application {
 
 
 
-        root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel);
+        root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel,scoreBoardImageView);
 
         primaryStage.setTitle("Gem_miner_OOP20232");
         primaryStage.setScene(scene);
@@ -262,7 +273,7 @@ public class MainGame extends Application {
     }
 
     private void startLevel() {
-        timeRemaining = 10; 
+        timeRemaining = 30; 
         currentScore = 0; 
         updateScore();
         updateTime();
@@ -405,6 +416,9 @@ public class MainGame extends Application {
                 }
             } else {
                 // Game over
+                PlayMusic lose = new PlayMusic();
+                lose.SetMusicPath("src/main/resources/music/lose1.1.wav");
+                lose.run();
                 gameTimeline.stop();
                 showEndMessage("Game Over! You did not reach the target score.");
             }

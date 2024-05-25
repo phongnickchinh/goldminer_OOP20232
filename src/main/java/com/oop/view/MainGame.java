@@ -104,12 +104,6 @@ public class MainGame extends Application {
         targetScoreLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 20px; -fx-text-fill: #103082; -fx-font-weight: bold");
 
 
-        //in ra
-
-        //vị tri ban đầu của cần cẩu cách moveX và moveY so với tâm của robot
-
-
-        //Vẽ line từ tâm musle đến tâm claw, những phần bị đè lên bởi claw không vẽ
 
         root.getChildren().addAll(scoreLabel, timeLabel, levelLabel, targetScoreLabel);
 

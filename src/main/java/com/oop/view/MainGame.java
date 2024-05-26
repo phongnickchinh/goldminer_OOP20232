@@ -173,17 +173,17 @@ public class MainGame extends Application {
         root.getChildren().add(clawView);
         return clawView;
     }
-    private void addDiamond(int count, int minRange, int maxRange, int kind) {
-        int minRangeX = minRange - 100;
-        int maxRangeX = maxRange + 100;
-            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
-            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+    private void addDiamond(int x_axis, int y_axis, int kind) {
+            int x = x_axis;
+            int y = y_axis;
             Diamond diamond = new Diamond(x, y, kind);
+            double sizeScale= diamond.getSize()/diamond.getImg(0).getWidth();
+
             //add to game object list to handle collision
             lisst.add(diamond);
             ImageView imageView = diamond.getImageView(1);
-            imageView.setFitWidth(20);
-            imageView.setFitHeight(20);
+            imageView.setFitWidth(diamond.getSize());
+            imageView.setFitHeight(diamond.getImg(0).getHeight() * sizeScale);
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
@@ -197,12 +197,9 @@ public class MainGame extends Application {
             });
     }
 
-    private void addGold(int count, int minRange, int maxRange, int kind) {
-        int minRangeX = minRange - 100;
-        int maxRangeX = maxRange + 100;
-        for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
-            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+    private void addGold(int x_axis, int y_axis, int kind) {
+            int x = x_axis;
+            int y = y_axis;
             Gold gold = new Gold(x, y, kind);
             System.out.println(gold);
             //add to game object list to handle collision
@@ -225,14 +222,11 @@ public class MainGame extends Application {
                 updateScore();
             });
         }
-    }
+    
 
-    private void addRock(int count, int minRange, int maxRange, int kind) {
-        int minRangeX = minRange - 100;
-        int maxRangeX = maxRange + 100;
-        for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
-            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+    private void addRock(int x_axis, int y_axis, int kind) {
+            int x = x_axis;
+            int y = y_axis;
             Rock rock = new Rock(x, y, kind);
             //add to game object list to handle collision
             lisst.add(rock);
@@ -252,14 +246,12 @@ public class MainGame extends Application {
                 updateScore();
             });
         }
-    }
 
-    private void addMole(int count, int minRange, int maxRange, int kind) {
-        int minRangeX = minRange - 100;
-        int maxRangeX = maxRange + 100;
-        for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
-            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+
+    private void addMole(int x_axis, int y_axis, int kind) {
+
+            int x = x_axis;
+            int y = y_axis;
 
             Mole mole = new Mole(x, y, x - 200, y + 50, 1);
             lisst.add(mole);
@@ -282,14 +274,11 @@ public class MainGame extends Application {
             });
 
         }
-    }
 
-    private void addRuby(int count, int minRange, int maxRange, int kind) {
-        int minRangeX = minRange - 100;
-        int maxRangeX = maxRange + 100;
-        for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
-            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+
+    private void addRuby(int x_axis, int y_axis, int kind) {
+            int x = x_axis;
+            int y = y_axis;
             Ruby ruby = new Ruby(x, y, kind);
             //add to game object list to handle collision
             lisst.add(ruby);
@@ -309,7 +298,7 @@ public class MainGame extends Application {
                 updateScore();
             });
         }
-    }
+
 
     //add boom
     private void addBoom(int count, int minRange, int maxRange, int kind) {
@@ -368,57 +357,132 @@ public class MainGame extends Application {
         }
 
         if (currentLevel == 0){
-            addRock(3, 150, 450, 1);
-            addRock(2, 150, 450, 0);
-            addGold(3, 150, 450, 2);
-            addGold(5, 150, 450, 0);
+            addRock(480, 250, 1);
+            addRock(242, 309, 0);
+            addRock(179, 120, 1);
+            addRock(361, 256, 0);
+            addRock(389, 406, 1);
+
+            addGold(556, 380, 1);
+            addGold(326, 149, 0);
+            addGold(215, 175, 1);
+            addGold(132, 354, 0);
+            addGold(254, 405, 1);
+            addGold(136, 264, 0);
+            addGold(45, 247, 0);
+            addGold(410, 250, 0);
+            addGold(450, 130, 0);
             //System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 1){
-            addGold(2, 150, 450, 2);
-            addGold(3, 150, 450, 0);
-            addGold(3, 150, 450, 1);
-            addRock(3, 150, 450, 0);
-            addRock(2, 150, 450, 1);
-            //System.out.println("number of object: "+lisst.size());
+            addGold(480, 250, 1);
+            addGold(389, 406, 0);
+            addGold(556, 380, 1);
+            addGold(326, 149, 0);
+            addGold(215, 175, 1);
+            addGold(157, 398, 2);
+            addGold(126, 278, 0);
+            addGold(410, 250, 2);
+            addGold(450, 130, 0);
+
+            addRock(242, 309, 0);
+            addRock(179, 120, 1);
+            addRock(361, 256, 1);
+            addRock(132, 354, 1);
+            addRock(56, 247, 0);
+            addRock(439, 199, 1);
         }
         else if (currentLevel == 2){
-            addRock(3, 150, 450, 0);
-            addRock(3, 150, 450, 1);
-            addGold(3, 150, 450, 1);
-            addGold(3, 150, 450, 0);
-            addGold(3, 150, 450, 2);
-            addDiamond(2, 150, 450, 1);
-            //System.out.println("number of object: "+lisst.size());
+
+            addRock(198, 186, 0);
+            addRock(56, 247, 0);
+            addRock(446, 187, 1);
+            addRock(347, 209, 0);
+            addRock(149, 400, 1);
+            addRock(289, 139, 0);
+
+            addGold(107, 406, 0);
+            addGold(556, 380, 1);
+            addGold(314, 164, 0);
+            addGold(254, 405, 2);
+            addGold(126, 278, 0);
+            addGold(410, 250, 2);
+            addGold(450, 150, 0);
+            
+            addDiamond(437,  390, 0);
+            addDiamond(389, 160, 0);
         }
 
         else if (currentLevel == 3){
+            addRock(126, 278, 1);
+            addRock(314, 164, 1);
+            addRock(198, 186, 0);
+            addRock(56, 247, 0);
+            addRock(446, 187, 1);
+            addRock(347, 209, 0);
 
-            addMole(3, 150, 450, 0);
-            addRock(3, 150, 450, 0);
-            addRock(3, 150, 450, 1);
-            addGold(3, 150, 450, 1);
-            addGold(5, 150, 450, 0);
-            addDiamond(4, 150, 450, 1);
-            addRuby(3, 150, 450, 1);
-            //System.out.println("number of object: "+lisst.size());
+            addRuby(149, 400, 1);
+            addRuby(289, 139, 0);
+            addRuby(134, 189, 0);
+
+            addGold(107, 406, 0);
+            addGold(556, 380, 1);
+            addGold(254, 405, 2);
+            addGold(410, 250, 2);
+            addGold(310, 280, 2);
+
+            addDiamond(450, 150, 0);
+            addDiamond(437,  390, 0);
+            addDiamond(389, 160, 0);
+            addDiamond(143, 356, 0);
         }
 
         else if (currentLevel == 4){
-            addMole(4, 150, 450, 0);
-            addRuby(3, 150, 450, 0);
-            addRock(4, 150, 450, 0);
-            addRock(3, 150, 450, 1);
-            addGold(5, 150, 450, 1);
-            addGold(5, 150, 450, 0);
-            addDiamond(3, 150, 450, 1);
-            addBoom(2, 150, 450, 1);
-            //System.out.println("number of object: "+lisst.size());
+            addRock(126, 278, 1);
+            addRock(314, 164, 1);
+            addRock(450, 150, 0);
+            addRock(437,  390, 0);
+            addDiamond(446, 187, 1);
+            addDiamond(347, 209, 0);
+
+            addGold(149, 400, 1);
+            addGold(289, 139, 0);
+            addGold(107, 406, 2);
+            addGold(556, 380, 2);
+
+            addRuby(254, 405, 0);
+            addRuby(410, 250, 0);
+            addRuby(156, 350, 0);
+            addRuby(40, 430, 0);
+
+            addDiamond(389, 160, 0);
+            addDiamond(198, 186, 0);
+            addDiamond(56, 247, 0);
+
+            addMole(237, 190, 0);
+            addMole(106, 378, 0);
+            addMole(178, 246, 0);
         }
         else if (currentLevel == 5){
-            addMole(5, 100, 460, 0);
-            addDiamond(8, 150, 450, 1);
-            //System.out.println("number of object: "+lisst.size());
+            addDiamond(126, 278, 0);
+            addDiamond(314, 164, 0);
+            addDiamond(450, 150, 0);
+            addDiamond(437,  390, 0);
+            addDiamond(446, 187, 0);
+            addDiamond(347, 209, 0);
+
+            addRuby(149, 400, 0);
+            addRuby(289, 139, 0);
+            addRuby(254, 405, 0);
+            addMole(410, 250, 0);
+
+            addDiamond(389, 160, 0);
+            addDiamond(198, 186, 0);
+            addDiamond(56, 247, 0);
+
+            addMole(237, 190, 0);
+            addMole(106, 378, 0);
+            addMole(178, 246, 0);
         }
 
 

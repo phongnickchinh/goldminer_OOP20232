@@ -46,13 +46,6 @@ public class Translate_Transition extends Application{
             translate.setByX(-translate.getByX());
             translate.play();
         });
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                System.out.println("X: " + moleView.getTranslateX());
-            }
-        };
-        timer.start();
 
         //Configuring Group and Scene
         Group root = new Group();

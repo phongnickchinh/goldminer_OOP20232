@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.oop.Main;
+import com.oop.model.Boom;
 import com.oop.model.Claw;
 import com.oop.model.Diamond;
 import com.oop.model.GameObject;
@@ -37,7 +38,7 @@ public class MainGame extends Application {
     };//lưu lại đối tượng ẩn vì móc kéo tượng tác với đối tượng thay vì imageview
     private static final int NUM_LEVELS = 6;
     private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 3000}; // Example target scores for each level
-    private int currentLevel = 4;
+    private int currentLevel = 0;
     private int currentScore = 0;
     private int timeRemaining = 60;
     private Timeline gameTimeline;
@@ -48,6 +49,7 @@ public class MainGame extends Application {
     private Label Back;
     private Pane root;
     private boolean isSoundPlaying = false;
+     private AnimationTimer timer;
 
     @SuppressWarnings("exports")
     @Override
@@ -181,7 +183,7 @@ public class MainGame extends Application {
 
             //add to game object list to handle collision
             lisst.add(diamond);
-            ImageView imageView = diamond.getImageView(1);
+            ImageView imageView = diamond.getImageView(0);
             imageView.setFitWidth(diamond.getSize());
             imageView.setFitHeight(diamond.getImg(0).getHeight() * sizeScale);
             imageView.setLayoutX(x);
@@ -253,11 +255,11 @@ public class MainGame extends Application {
             int x = x_axis;
             int y = y_axis;
 
-            Mole mole = new Mole(x, y, x - 200, y + 50, 1);
+            Mole mole = new Mole(x, y, x - 50, y + 50, kind);
             lisst.add(mole);
             double sizeScale= mole.getSize()/mole.getImg(0).getWidth();
             ImageView imageView = mole.getImageView(1);
-            mole.move(imageView, kind);
+            mole.move(imageView, mole.getSpeed());
             imageView.setFitWidth(mole.getSize());
             imageView.setFitHeight(mole.getImg(0).getHeight() * sizeScale);
             imageView.setLayoutX(x);
@@ -283,7 +285,7 @@ public class MainGame extends Application {
             //add to game object list to handle collision
             lisst.add(ruby);
             double sizeScale= ruby.getSize()/ruby.getImg(0).getWidth();
-            ImageView imageView = ruby.getImageView(1);
+            ImageView imageView = ruby.getImageView(0);
             imageView.setFitWidth(ruby.getSize());
             imageView.setFitHeight(ruby.getImg(0).getHeight() * sizeScale);
             imageView.setLayoutX(x);
@@ -301,31 +303,19 @@ public class MainGame extends Application {
 
 
     //add boom
-    private void addBoom(int count, int minRange, int maxRange, int kind) {
-        int minRangeX = minRange - 100;
-        int maxRangeX = maxRange + 100;
-        for (int i = 0; i < count; i++) {
-            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
-            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
-            Ruby ruby = new Ruby(x, y, kind);
+    private void addBoom(int x_axis, int y_axis) {
+            int x = x_axis;
+            int y = y_axis;
+            Boom boom = new Boom(x, y);
             //add to game object list to handle collision
-            lisst.add(ruby);
-            double sizeScale= ruby.getSize()/ruby.getImg(0).getWidth();
-            ImageView imageView = ruby.getImageView(1);
-            imageView.setFitWidth(ruby.getSize());
-            imageView.setFitHeight(ruby.getImg(0).getHeight() * sizeScale);
+            lisst.add(boom);
+            double sizeScale= boom.getSize()/boom.getImg(0).getWidth();
+            ImageView imageView = boom.getImageView(0);
+            imageView.setFitWidth(boom.getSize());
+            imageView.setFitHeight(boom.getImg(0).getHeight() * sizeScale);
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
-            imageView.setOnMouseClicked(event -> {
-                PlayMusic thuvatpham = new PlayMusic();
-                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                thuvatpham.run();
-                currentScore += ruby.getVal(); // Example score increment
-                root.getChildren().remove(imageView);
-                updateScore();
-            });
-        }
     }
 
 
@@ -339,6 +329,7 @@ public class MainGame extends Application {
 
         if (gameTimeline != null) {
             gameTimeline.stop();
+            timer.stop();
         }
 
         gameTimeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateGame()));
@@ -372,6 +363,8 @@ public class MainGame extends Application {
             addGold(45, 247, 0);
             addGold(410, 250, 0);
             addGold(450, 130, 0);
+
+            addBoom(200, 200);
             //System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 1){
@@ -497,14 +490,12 @@ public class MainGame extends Application {
         ImageView clawView = addClaw();
 
         //make animation claw
-        AnimationTimer timer = new AnimationTimer() {
+        timer = new AnimationTimer() {
             Line line = new Line();
             @Override
             public void handle(long now) {
-                System.out.println("Item remain:  " + lisst.size());
                 int itemScore = claw.move();
                 currentScore += itemScore;
-                System.out.println("Main game :     " +itemScore);
                 updateScore();
                 claw.updateImage(clawView);
                 root.setOnMouseClicked(e->{

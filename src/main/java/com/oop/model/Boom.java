@@ -1,91 +1,68 @@
 package com.oop.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.oop.view.MainGame;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Boom extends GameObject{
     int imgNum;
     Image[] bombImg = new Image[5];
+    List<GameObject> listExplosive = new ArrayList<GameObject>();
 
     public Boom(double xx, double yy) {
-        super(xx, yy, "file:src/main/resources/image/boom/bomb.png", "file:src/main/resources/image/boom/clawbomb.png", 2, 60, 6, "src/main/resources/music/boom.wav");
+        super(xx, yy, "file:src/main/resources/image/boom/bomb.png", "file:src/main/resources/image/Claw/robot_hand.png", 2, 35, 6, "src/main/resources/music/boom.wav");
         imgNum = 0;
 
         try {
             bombImg[0] = new Image("file:src/main/resources/image/boom/bomb.png");
             bombImg[1] = new Image("file:src/main/resources/image/boom/bomno1.png");
             bombImg[2] = new Image("file:src/main/resources/image/boom/bomno2.png");
-            //bombImg[3] = new Image(getClass().getResourceAsStream("img/boom3.png"));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // Used to determine if a catchable element is within the explosion range of the bomb
-    public boolean inRange(GameObject c) {
-        double bombRange = 100;
-        double left = X + Size / 2 - bombRange;
-        double right = X + Size / 2 + bombRange;
-        double top = Y + Size / 2 - bombRange;
-        double bottom = Y + Size / 2 + bombRange;
-        return c.X + c.Size / 2 >= left && c.X + c.Size / 2 <= right
-                && c.Y + c.Size / 2 >= top && c.Y + c.Size / 2 <= bottom;
-    }
 
-    // Override: Handle explosion on touch
-    public void touch(double clawX, double clawY, double angle) {
-        X = clawX - 75 + 4.5 * Math.sin(angle);
-        Y = clawY - 26 - 4 * Math.cos(angle);
-        caughtFlag = true;
-        bombFlag = 2;
-    }
-
-    // Override: Chain explosion
-    public void bomb() {
-        if (bombFlag == 0)
-            bombFlag = 3;
-    }
-
-    // Override: Explosion image
-    public Image getImg(double d) {
-        switch (bombFlag) {
-            case 0:
-            case 1:
-                break;
-            case 2:
-                if (imgNum < 8) {
-                    imgNum++;
-                    Size = 200;
-                } else {
-                    bombFlag = 1;
-                    Size = 150;
-                }
-                break;
-            case 3:
-                if (imgNum < 7) {
-                    imgNum++;
-                    Size = 200;
-                } else
-                    deleteFlag = true;
-                break;
-            default:
-                System.out.println("There is something wrong with tnt in Catchable.java!");
+    //make a list gameObjects can be eplosive when touch boom
+    public List<GameObject> getExplosiveObjects(){
+        for (GameObject gameObject : MainGame.lisst) {
+            //nếu toạ độ của gameObject nằm trong vùng nổ của boom thì thêm vào list
+            if (gameObject.X > this.X - 150 && gameObject.X < this.X + 150 && gameObject.Y > this.Y - 150 && gameObject.Y < this.Y + 150) {
+                listExplosive.add(gameObject);
+            }
         }
-        if (imgNum < 8)
-            return bombImg[(imgNum + 1) / 2];
-        else
-            return rotateImage(CaughtImg, d, 100, 41);
+        return listExplosive;
     }
 
-    // Rotate image
-    private Image rotateImage(Image image, double angle, double centerX, double centerY) {
-        ImageView imageView = new ImageView(image);
-        imageView.setRotate(-Math.toDegrees(angle));
-        imageView.setTranslateX(centerX - image.getWidth() / 2);
-        imageView.setTranslateY(centerY - image.getHeight() / 2);
-        return imageView.snapshot(null, null);
+    //chạy hiểu ứng bằng các thay đổi ảnh
+    public void explosive(ImageView boomImageView){
+        for (int i = 1; i < 3; i++) {
+            try {
+                Thread.sleep(100);
+                boomImageView.setImage(bombImg[i]);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
+
+
+    @Override
+    public Image getImg(double d) {
+        //nếu vật thể đang được gắp lên, cần xoay 1 hướng phù hợp với góc gắp
+        if (caughtFlag)
+            //return CaughtImg;
+            return RotateImage.rotateImage(CaughtImg, d); //fix sau
+        else
+            return ItemImg;
+    }
+
 
     @Override
     public ImageView getImageView(double d) {

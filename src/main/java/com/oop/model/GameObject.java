@@ -2,8 +2,6 @@ package com.oop.model;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-//import javax.imageio.ImageIO;
-import javafx.scene.media.Media;
 public abstract class GameObject {
     public abstract ImageView getImageView(double d);
     double X;
@@ -49,6 +47,13 @@ public abstract class GameObject {
         return (int) Y;
     }
 
+    public void setX(int x) {
+        X = x;
+    }
+
+    public void setY(int y) {
+        Y = y;
+    }
     public void update(double delta_x, double delta_y) {
         X += delta_x;
         Y += delta_y;

@@ -2,6 +2,8 @@ package com.oop.model;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,7 +12,7 @@ import javafx.util.Duration;
 //import java.util.Random;
 public class Moveable extends GameObject{
 
-    private boolean dir; // 0 hướng trái, 1 hướng phải
+    private int dir; // 0 hướng trái, 1 hướng phải
     private int left;
     private int right;
     private final Image itemImg; //image when item is not caught
@@ -22,20 +24,21 @@ public class Moveable extends GameObject{
     public Moveable(int xx, int yy, String imgPath, String imgPath2, String imgPath3, String imgPath4, int val, int size, int l, int r, double speed, String musicPath) {
         super(xx, yy, imgPath, imgPath2, val, size, speed, musicPath);
         //dir random 2 values: false (0) and true (1)
-        dir = new Random().nextBoolean();
+        dir = new Random().nextInt() % 2;
+        System.out.println(dir);
         left = l;
         right = r;
-        if (dir) {
+        if (dir==0) {
             itemImg = new Image(imgPath);
-            itemImgAnother = new Image( imgPath2);
-            caughtImg = new Image(imgPath3);
+            itemImgAnother = new Image( imgPath3);
+            caughtImg = new Image(imgPath2);
             caughtImgAnother = new Image(imgPath4);
         }
         else {
-            itemImg = new Image(imgPath2);
+            itemImg = new Image(imgPath3);
             itemImgAnother = new Image(imgPath);
             caughtImg = new Image(imgPath4);
-            caughtImgAnother = new Image(imgPath3);
+            caughtImgAnother = new Image(imgPath2);
         }
 
 
@@ -44,33 +47,31 @@ public class Moveable extends GameObject{
         imageView.setFitHeight(size);
     }
 
-    public void move(ImageView moleView, double speed) {
+ public void move(ImageView moleView, double speed) {
         System.out.println("this method is called");
         Image mole = itemImg;
         Image mole_reverse = itemImgAnother;
-        TranslateTransition translate = new TranslateTransition();
-        translate.setByX(this.X-this.X/2);
-        //cài đặt thời gian dịch chuyển mỗi nửa chu kỳ
-        translate.setDuration(Duration.millis(speed*1000));
-        //mỗi khi hết 1 lượt dịch chuyển thì thay đổi hình ảnh và tiếp tục dịch chuyển
-        translate.setNode(moleView);
-        translate.play();
-        translate.setOnFinished(e -> {
-            if (!this.dir) {
+
+        // Tạo một Timeline để cập nhật liên tục toạ độ của moleView
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000/60), e -> {
+            // Tính toạ độ mới của mole
+            this.X += speed*(dir*2-1);
+            
+            // Cập nhật toạ độ của moleView
+            moleView.setLayoutX(this.X);
+            
+            // Kiểm tra nếu đã đến cuối, thay đổi hình ảnh
+            if (this.X >= right) {
                 moleView.setImage(mole_reverse);
-            } else {
+                dir = 1 - dir;
+            } else if(this.X <= left){
                 moleView.setImage(mole);
+                dir = 1 - dir;
             }
-            translate.setByX(-translate.getByX());
-            translate.play();
-        });
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                System.out.println("X: " + moleView.getTranslateX());
-            }
-        };
-        timer.start();
+
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
 
@@ -78,7 +79,7 @@ public class Moveable extends GameObject{
         //nếu vật thể đang được gắp lên
         if (caughtFlag) {
             //nếu hướng của vật thể là 1 (phải) thì hiển thị hình ảnh caughtImg
-            if (dir) {
+            if (dir==1) {
                 imageView.setImage(caughtImg);
             //nếu hướng của vật thể là 0 (trái) thì hiển thị hình ảnh caughtImgAnother
             } else {
@@ -87,7 +88,7 @@ public class Moveable extends GameObject{
             //nếu vật thể không được gắp lên
         } else {
             //nếu hướng của vật thể là 1 (phải) thì hiển thị hình ảnh itemImg
-            if (dir) {
+            if (dir==1) {
                 imageView.setImage(itemImg);
             //nếu hướng của vật thể là 0 (trái) thì hiển thị hình ảnh itemImgAnother
             } else {
@@ -111,11 +112,11 @@ public class Moveable extends GameObject{
         return imageView;
     }
 
-    public boolean getDir() {
+    public int getDir() {
         return dir;
     }
 
-    public void setDir(boolean dir) {
+    public void setDir(int dir) {
         this.dir = dir;
     }
 

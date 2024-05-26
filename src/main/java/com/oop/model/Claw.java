@@ -1,4 +1,6 @@
 package com.oop.model;
+import java.util.List;
+
 import com.oop.Main;
 import com.oop.view.MainGame;
 
@@ -69,7 +71,7 @@ public class Claw {
         radius = Math.sqrt((firstX - centerX) * (firstX - centerX) + (firstY - centerY) * (firstY - centerY));
 
         // Khởi tạo tốc độ
-        stretchSpeed = 3;
+        stretchSpeed = 5;
         spinDirection = 1;
         stateFlag = 0;
         Item = null; //
@@ -133,10 +135,7 @@ public class Claw {
 
     //hàm checkCatch có chức năng kiểm tra xem có bắt được vật thể trên đường di chuyển không:
     public void runAndCatch() {
-        // System.out.println("runAndCatch");
-
-        //in lisst
-        System.out.println(MainGame.lisst.size());
+        System.out.println("runAndCatch");
         preAngle = angle;
         clawX += stretchSpeed * Math.sin(angle);
         clawY += stretchSpeed * Math.cos(angle);
@@ -153,13 +152,44 @@ public class Claw {
                 System.out.println("catched");
                 this.Item = item;
                 item.caughtFlag=true;
+
+                //nếu là boom thì phát nhạc lúc bắt, xoá các vật thể nằm trong vùng nổ
+                if(Item instanceof Boom){
+                    Item.CatchSound.playMusic();
+                    ImageView boomImageView = new ImageView();
+                    for(Node node: root.getChildren()){
+                        if(node instanceof ImageView){
+                            if(((ImageView) node).getImage()==item.ItemImg){
+                                boomImageView = (ImageView) node;
+                                break;
+                            }
+                        }
+                    }
+                    ((Boom) Item).explosive(boomImageView);
+                    stateFlag = 2;
+                    List<GameObject> remoList= ((Boom) Item).getExplosiveObjects();
+                    for(GameObject e: remoList){
+                        MainGame.lisst.remove(e);
+                        for(Node node: root.getChildren()){
+                            if(node instanceof ImageView){
+                                if(((ImageView) node).getImage()==e.ItemImg){
+                                    root.getChildren().remove(node);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                }
+                this.stretchSpeed = stretchSpeed*20/Item.getSize();
                 stateFlag = 2;
                 //xoá vật thể khỏi danh sách
-                MainGame.lisst.remove(item);
+                MainGame.lisst.remove(Item);
                 //tìm kiếm imageview của vật thể và xoá nó khỏi root
                 for(Node e: root.getChildren()){
                     if(e instanceof ImageView){
-                        if(((ImageView) e).getImage()==item.ItemImg){
+                        System.out.println("found");    
+                        if(((ImageView) e).getImage()==Item.ItemImg){
                             root.getChildren().remove(e);
                             break;
                         }
@@ -179,10 +209,13 @@ public class Claw {
         //khi kéo đến nơi
         if(clawY<=firstY){
             if(Item!=null){
-            System.out.println("item value: "+ Item.getVal());
-            Item.CatchSound.playMusic();
+            stretchSpeed = stretchSpeed*Item.getSize()/20;
+            //nếu không phải boom thì phát nhạc lúc kéo lên
+            if(!(Item instanceof Boom)){
+                Item.CatchSound.playMusic();
+            }
+            
             int itemScore = Item.getVal();
-            System.out.println("itemScore: "+ itemScore);
             Item = null;
             return itemScore;
             }
@@ -198,7 +231,7 @@ public class Claw {
     //hàm updateImage có chức năng cập nhật hình ảnh của kẹp tuỳ theo trường hợp:
     public void updateImage( ImageView clawView) {
 
-        if(this.Item==null){
+        if(this.Item==null || this.Item instanceof Boom){
             clawView.setFitHeight(clawImage.getHeight()/1.5/Main.scale);
             clawView.setFitWidth(clawImage.getWidth()/1.5/Main.scale);
             // System.out.println("not hehe");
@@ -220,8 +253,8 @@ public class Claw {
             clawView.setImage(itemImage);
             clawView.setFitHeight(itemImage.getHeight()*sizeScale);
             clawView.setFitWidth(itemImage.getWidth()*sizeScale);
-            clawView.setLayoutX(clawX - clawImage.getWidth()*0.25/2);
-            clawView.setLayoutY(clawY - clawImage.getHeight()*0.25/2);
+            clawView.setLayoutX(clawX - clawImage.getWidth()*sizeScale/2);
+            clawView.setLayoutY(clawY - clawImage.getHeight()*sizeScale/2);
         }
         
     }

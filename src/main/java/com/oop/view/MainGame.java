@@ -38,7 +38,7 @@ public class MainGame extends Application {
     };//lưu lại đối tượng ẩn vì móc kéo tượng tác với đối tượng thay vì imageview
     private static final int NUM_LEVELS = 6;
     private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 3000}; // Example target scores for each level
-    private int currentLevel = 4;
+    private int currentLevel = 0;
     private int currentScore = 0;
     private int timeRemaining = 60;
     private Timeline gameTimeline;
@@ -173,14 +173,14 @@ public class MainGame extends Application {
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
-            imageView.setOnMouseClicked(event -> {
+            /*imageView.setOnMouseClicked(event -> {
                 PlayMusic thuvatpham = new PlayMusic();
                 thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
                 thuvatpham.run();
                 currentScore += diamond.getVal(); // Example score increment
                 root.getChildren().remove(imageView);
                 updateScore();
-            });
+            }); */
     }
 
     private void addGold(int x_axis, int y_axis, int kind) {
@@ -199,14 +199,14 @@ public class MainGame extends Application {
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
-            imageView.setOnMouseClicked(event -> {
+            /*imageView.setOnMouseClicked(event -> {
                 PlayMusic thuvatpham = new PlayMusic();
                 thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
                 thuvatpham.run();
                 currentScore += gold.getVal(); // Example score increment
                 root.getChildren().remove(imageView);
                 updateScore();
-            });
+            });*/
         }
     
 
@@ -223,14 +223,14 @@ public class MainGame extends Application {
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
-            imageView.setOnMouseClicked(event -> {
+            /*imageView.setOnMouseClicked(event -> {
                 PlayMusic thuvatpham = new PlayMusic();
                 thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
                 thuvatpham.run();
                 currentScore += rock.getVal(); // Example score increment
                 root.getChildren().remove(imageView);
                 updateScore();
-            });
+            });*/
         }
 
 
@@ -250,14 +250,14 @@ public class MainGame extends Application {
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
             // Add click handler to collect gold
-            imageView.setOnMouseClicked(event -> {
+            /*imageView.setOnMouseClicked(event -> {
                 PlayMusic MouseSound = new PlayMusic();
                 MouseSound.SetMusicPath("src/main/resources/music/MouseSound.mp3");
                 MouseSound.run();
                 currentScore += mole.getVal(); // Example score increment
                 root.getChildren().remove(imageView);
                 updateScore();
-            });
+            });*/
 
         }
 
@@ -275,14 +275,14 @@ public class MainGame extends Application {
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
-            imageView.setOnMouseClicked(event -> {
+            /*imageView.setOnMouseClicked(event -> {
                 PlayMusic thuvatpham = new PlayMusic();
                 thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
                 thuvatpham.run();
                 currentScore += ruby.getVal(); // Example score increment
                 root.getChildren().remove(imageView);
                 updateScore();
-            });
+            });*/
         }
 
 
@@ -300,6 +300,15 @@ public class MainGame extends Application {
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
+            /*imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += ruby.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });*/
+        }
     }
 
 

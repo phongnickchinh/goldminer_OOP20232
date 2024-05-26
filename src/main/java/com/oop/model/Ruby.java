@@ -3,7 +3,7 @@ package com.oop.model;
 import javafx.scene.image.ImageView;
 
 public class Ruby extends GameObject{
-    private static final int[] VAL = { 300,300};
+    private static final int[] VAL = { 250,300};
     private static final int[] SIZE = { 29,37};
     private static final String[] IMG_PATHS = { "file:src/main/resources/image/Ruby/circle_ruby.png", "file:src/main/resources/image/Ruby/heart_ruby.png"};
     private static final String[] IMG_PATHS2 = { "file:src/main/resources/image/Ruby/recircle_ruby.png", "file:src/main/resources/image/Ruby/reheart_ruby.png"};

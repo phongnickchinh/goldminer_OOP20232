@@ -188,7 +188,7 @@ public class Claw {
                 //tìm kiếm imageview của vật thể và xoá nó khỏi root
                 for(Node e: root.getChildren()){
                     if(e instanceof ImageView){
-                        System.out.println("found");    
+                        System.out.println("found");
                         if(((ImageView) e).getImage()==Item.ItemImg){
                             root.getChildren().remove(e);
                             break;

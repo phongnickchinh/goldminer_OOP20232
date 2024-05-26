@@ -38,7 +38,7 @@ public class MainGame extends Application {
     };//lưu lại đối tượng ẩn vì móc kéo tượng tác với đối tượng thay vì imageview
     private static final int NUM_LEVELS = 6;
     private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 3000}; // Example target scores for each level
-    private int currentLevel = 0;
+    private int currentLevel = 4;
     private int currentScore = 0;
     private int timeRemaining = 60;
     private Timeline gameTimeline;
@@ -62,27 +62,13 @@ public class MainGame extends Application {
         scoreBoardDraw.setFill(new ImagePattern(scoreBoard));
         root.getChildren().add(scoreBoardDraw);
         Scene scene = new Scene(root, 657, 480);
-        int gridSize = 10;
-        for (int y = 0; y <= 480; y += gridSize) {
 
-            //vẽ các đường ngang màu trắng
-            Line line = new Line(0, y, 657, y);
-            line.setStrokeWidth(0.2);
-            line.setStroke(javafx.scene.paint.Color.WHITE);
-            root.getChildren().add(line);
-            
-        }
-
-        for (int x = 0; x <= 657; x += gridSize) {
-            //vẽ các đường dọc màu trắng
-            Line line = new Line(x, 0, x, 480);
-            line.setStrokeWidth(0.2);
-            line.setStroke(javafx.scene.paint.Color.WHITE);
-            root.getChildren().add(line);
-        }
         //không cho phép thay đổi kích thước cửa sổ
         Back = new Label("Exit");
         //thu nhỏ label startButton
+
+        //thêm background cho label là hình ảnh kích thước thật
+        Back.setStyle("-fx-background-image: url('file:src/main/resources/image/button/back/back_button_red.png'); -fx-background-size: 20% 20%; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-padding: 70px; -fx-font-size: 15px; -fx-text-fill: #103082; -fx-font-weight: bold; -fx-cursor: hand;");
         Back.setPrefSize(10, 10);
         //set vị trí của label startButton
         Back.setLayoutX(10);
@@ -101,8 +87,6 @@ public class MainGame extends Application {
             FisrtMenu turnFirst = new FisrtMenu();
             turnFirst.start(primaryStage);
         });
-        //thêm background cho label là hình ảnh kích thước thật
-        Back.setStyle("-fx-background-image: url('file:src/main/resources/image/button/back/back_button_red.png'); -fx-background-size: 20% 20%; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-padding: 77px; -fx-font-size: 15px; -fx-text-fill: #103082; -fx-font-weight: bold; -fx-cursor: hand;");
         root.getChildren().add(Back);
         
         primaryStage.setResizable(false);
@@ -250,12 +234,12 @@ public class MainGame extends Application {
         }
 
 
-    private void addMole(int x_axis, int y_axis, int kind) {
+    private void addMole(int x_axis, int y_axis, int left, int right, int kind) {
 
             int x = x_axis;
             int y = y_axis;
 
-            Mole mole = new Mole(x, y, x - 50, y + 50, kind);
+            Mole mole = new Mole(x, y, left, right, kind);
             lisst.add(mole);
             double sizeScale= mole.getSize()/mole.getImg(0).getWidth();
             ImageView imageView = mole.getImageView(1);
@@ -430,7 +414,7 @@ public class MainGame extends Application {
             //addDiamond(400,  390, 0);
            // addDiamond(389, 160, 0);
             addDiamond(100, 356, 0);
-            //boom{400,370}
+            addBoom(400,370);
         }
 
         else if (currentLevel == 4){
@@ -449,19 +433,21 @@ public class MainGame extends Application {
             addGold(556, 280, 2);
 
             addRuby(254, 405, 0);
-            addRuby(410, 299, 0);
-            addRuby(156, 350, 0);
-            addRuby(40, 30, 0);
+            addRuby(410, 250, 0);
+            addRuby(156, 250, 0);
 
             addDiamond(450, 370, 0);
-            addDiamond(198, 386, 0);
-            addDiamond(399, 447, 0);
+            addDiamond(173, 310, 0);
+            addDiamond(450, 447, 0);
 
-            addMole(237, 200, 1);
+            addMole(237, 200,  150, 600, 0);
             //addMole(106, 378, 0);
-            addMole(178, 305, 1);
+            addMole(178, 246, 50, 300, 0);
+            addMole(178, 305, 50, 350, 0);
             //boom1{450,200}
             //boom2{314,350}
+            addBoom(450, 200);
+            addBoom(220, 250);
         }
         else if (currentLevel == 5){
             
@@ -475,13 +461,15 @@ public class MainGame extends Application {
             addDiamond(289, 360, 0);
             
 
-            addMole(237, 170, 1);
-            addMole(106, 378, 1);
-            addMole(178, 246, 1);
-            addMole(410, 300, 1);
-            addMole(410, 425, 1);
+            addMole(237, 170, 150, 600, 1);
+            addMole(106, 378, 50, 300, 1);
+            addMole(178, 246, 139, 290, 1);
+            addMole(410, 300, 300, 600, 1);
+            addMole(410, 425, 200, 600, 1);
             //boom{210,340}
             //boom{470,340}
+            addBoom(210, 340);
+            addBoom(470, 340);
         }
 
 

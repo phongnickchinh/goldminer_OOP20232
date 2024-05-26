@@ -6,7 +6,7 @@ public class Mysterybox extends GameObject{
    int kind;  // Item or money
 
     public Mysterybox(double xx, double yy) {
-        super(xx, yy, "file:src/main/resources/image/Mysterybox/box1.png", "file:src/main/resources/image/Mysterybox/box2.png", 0, 40, (6 - Math.random() * 5));
+        super(xx, yy, "file:src/main/resources/image/Mysterybox/box2.png", "file:src/main/resources/image/Mysterybox/box1.png", 0, 43, (6 - Math.random() * 5), "src/main/resources/music/thugoiqua.wav");
 
         if ((int) (Math.random() * 4) == 3)
             kind = 1;

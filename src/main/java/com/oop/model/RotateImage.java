@@ -1,8 +1,5 @@
 package com.oop.model;
 
-
-import com.oop.Main;
-
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,7 +24,7 @@ public class RotateImage {
 
         // Tạo phép xoay
 
-        Rotate rotate = new Rotate(angle, imageView.getFitWidth() , imageView.getFitHeight() );
+        Rotate rotate = new Rotate(-angle, imageView.getFitWidth() , imageView.getFitHeight() );
         imageView.getTransforms().add(rotate);
 
         //nền xanh

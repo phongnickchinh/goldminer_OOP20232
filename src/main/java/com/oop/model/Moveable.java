@@ -19,8 +19,8 @@ public class Moveable extends GameObject{
     private final Image caughtImgAnother; // image reverse of caughtImg
     private final ImageView imageView;
 
-    public Moveable(int xx, int yy, String imgPath, String imgPath2, String imgPath3, String imgPath4, int val, int size, int l, int r, double speed) {
-        super(xx, yy, imgPath, imgPath2, val, size, speed);
+    public Moveable(int xx, int yy, String imgPath, String imgPath2, String imgPath3, String imgPath4, int val, int size, int l, int r, double speed, String musicPath) {
+        super(xx, yy, imgPath, imgPath2, val, size, speed, musicPath);
         //dir random 2 values: false (0) and true (1)
         dir = new Random().nextBoolean();
         left = l;

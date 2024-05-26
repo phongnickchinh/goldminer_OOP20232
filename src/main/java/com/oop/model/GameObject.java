@@ -3,6 +3,7 @@ package com.oop.model;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 //import javax.imageio.ImageIO;
+import javafx.scene.media.Media;
 public abstract class GameObject {
     public abstract ImageView getImageView(double d);
     double X;
@@ -12,10 +13,12 @@ public abstract class GameObject {
     public int Size;
     Image ItemImg;
     Image CaughtImg;
+    Music CatchSound;
     public boolean caughtFlag;
     public boolean deleteFlag;
     int bombFlag;
-    public GameObject(double xx, double yy, String ImgPath, String ImgPath2, int val, int size, double speed){
+    public GameObject(double xx, double yy, String ImgPath, String ImgPath2, int val, int size, double speed, String soundPath){
+        System.out.println(ImgPath2);
         X = xx;
         Y = yy;
         Val = val;
@@ -26,6 +29,7 @@ public abstract class GameObject {
         bombFlag = 0; 
         ItemImg = new Image(ImgPath); // truyền vào dườngdẫn đến ảnh
         CaughtImg = new Image(ImgPath2);
+        CatchSound = new Music(soundPath);
 
     }
 
@@ -59,6 +63,10 @@ public abstract class GameObject {
 
     public int getVal() {
         return Val;
+    }
+
+    public Image getcaughtFlag() {
+        return CaughtImg;
     }
 
     public void touch(double clawX, double clawY, double angle) {

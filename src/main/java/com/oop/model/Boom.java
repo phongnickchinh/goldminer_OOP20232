@@ -8,7 +8,7 @@ public class Boom extends GameObject{
     Image[] bombImg = new Image[5];
 
     public Boom(double xx, double yy) {
-        super(xx, yy, "file:src/main/resources/image/boom/bomb.png", "file:src/main/resources/image/boom/clawbomb.png", 2, 60, 6);//Đổi
+        super(xx, yy, "file:src/main/resources/image/boom/bomb.png", "file:src/main/resources/image/boom/clawbomb.png", 2, 60, 6, "src/main/resources/music/boom.wav");
         imgNum = 0;
 
         try {

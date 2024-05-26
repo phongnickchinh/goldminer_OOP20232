@@ -69,7 +69,7 @@ public class Claw {
         radius = Math.sqrt((firstX - centerX) * (firstX - centerX) + (firstY - centerY) * (firstY - centerY));
 
         // Khởi tạo tốc độ
-        stretchSpeed = 5;
+        stretchSpeed = 3;
         spinDirection = 1;
         stateFlag = 0;
         Item = null; //
@@ -98,19 +98,22 @@ public class Claw {
     
 
     //hàm move có chức năng thực hiện di chuyển kẹp gắp:
-    public void move(){
+    public int move(){
+        int addScore = 0;
         if(stateFlag==0){
             this.swing();
         }
 
         if(stateFlag == 1){
-
-            int temp = this.runAndCatch();
+            this.runAndCatch();
+            
         }
 
         if(stateFlag==2){
-            this.pullUp();
+            addScore =  this.pullUp();
+            return addScore;
         }
+        return addScore;
     }
 
 
@@ -129,7 +132,7 @@ public class Claw {
     }
 
     //hàm checkCatch có chức năng kiểm tra xem có bắt được vật thể trên đường di chuyển không:
-    public int runAndCatch() {
+    public void runAndCatch() {
         // System.out.println("runAndCatch");
 
         //in lisst
@@ -162,24 +165,33 @@ public class Claw {
                         }
                     }
                 }
-                return item.getVal();
+                break;
             }
         }
-        return 0;
-
     }
 
     //hàm pullUp có chức năng thực hiện kéo lên vật thể đã bắt được:
-    public void pullUp() {
-        // System.out.println("pullUp");
+    public int pullUp() {
+        System.out.println("pullUp");
         preAngle = angle;
         clawX -= stretchSpeed * Math.sin(angle);
         clawY -= stretchSpeed * Math.cos(angle);
+        //khi kéo đến nơi
         if(clawY<=firstY){
+            if(Item!=null){
+            System.out.println("item value: "+ Item.getVal());
+            Item.CatchSound.playMusic();
+            int itemScore = Item.getVal();
+            System.out.println("itemScore: "+ itemScore);
+            Item = null;
+            return itemScore;
+            }
+            System.out.println("pullUp done");
             clawY = firstY;
             stateFlag = 0;
-            Item = null;
+
         }
+        return 0;
 
     }
 
@@ -187,6 +199,8 @@ public class Claw {
     public void updateImage( ImageView clawView) {
 
         if(this.Item==null){
+            clawView.setFitHeight(clawImage.getHeight()/1.5/Main.scale);
+            clawView.setFitWidth(clawImage.getWidth()/1.5/Main.scale);
             // System.out.println("not hehe");
             clawView.setImage(this.clawImage);
             Rotate rotate = new Rotate();
@@ -197,15 +211,15 @@ public class Claw {
             clawView.getTransforms().add(rotate);
             //thế quái nào cái này nó lại dùng degrees :))
             clawView.setRotate(clawView.getRotate()-Math.toDegrees(angle - preAngle));
-            System.out.println(clawImage.getWidth());
-            System.out.println(clawImage.getHeight());
             clawView.setLayoutX(clawX - clawImage.getWidth()*0.25/2);
             clawView.setLayoutY(clawY - clawImage.getHeight()*0.25/2);
         }
         else{
-            System.out.println("hehe");
-            clawView.setImage(Item.getImg(0.0));
-
+            double sizeScale= Item.getSize()/Item.getImg(0).getWidth();
+            Image itemImage = Item.getImg(0.0);
+            clawView.setImage(itemImage);
+            clawView.setFitHeight(itemImage.getHeight()*sizeScale);
+            clawView.setFitWidth(itemImage.getWidth()*sizeScale);
             clawView.setLayoutX(clawX - clawImage.getWidth()*0.25/2);
             clawView.setLayoutY(clawY - clawImage.getHeight()*0.25/2);
         }

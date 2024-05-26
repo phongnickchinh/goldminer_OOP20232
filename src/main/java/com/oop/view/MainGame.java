@@ -30,13 +30,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 public class MainGame extends Application {
 
+    private Claw claw;
     public static List<GameObject> lisst;
     static{
         lisst = new ArrayList<>();
     };//lưu lại đối tượng ẩn vì móc kéo tượng tác với đối tượng thay vì imageview
     private static final int NUM_LEVELS = 6;
     private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 3000}; // Example target scores for each level
-    private int currentLevel = 0;
+    private int currentLevel = 4;
     private int currentScore = 0;
     private int timeRemaining = 60;
     private Timeline gameTimeline;
@@ -92,6 +93,9 @@ public class MainGame extends Application {
             gameTimeline.stop();
             //dừng các animation timer
             lisst.removeAll(lisst);
+            claw=null;
+            //huỷ root cũ
+            root.getChildren().removeAll();
             FisrtMenu turnFirst = new FisrtMenu();
             turnFirst.start(primaryStage);
         });
@@ -161,8 +165,8 @@ public class MainGame extends Application {
     private ImageView addClaw(){
         Image clawImage =new Image("file:src/main/resources/image/Claw/robot_hand.png");
         ImageView clawView = new ImageView(clawImage);
-        clawView.setFitHeight(clawImage.getHeight()/1.5/Main.scale);
-        clawView.setFitWidth(clawImage.getWidth()/1.5/Main.scale);
+        clawView.setFitHeight(27/Main.scale);
+        clawView.setFitWidth(27/Main.scale);
         System.out.println(clawImage.getWidth() + " " + clawImage.getHeight());
         clawView.setLayoutX(295.5-clawImage.getWidth()*0.25/2);
         clawView.setLayoutY(91.5-clawImage.getHeight()*0.25/2);
@@ -172,7 +176,6 @@ public class MainGame extends Application {
     private void addDiamond(int count, int minRange, int maxRange, int kind) {
         int minRangeX = minRange - 100;
         int maxRangeX = maxRange + 100;
-        for (int i = 0; i < count; i++) {
             int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Diamond diamond = new Diamond(x, y, kind);
@@ -192,7 +195,6 @@ public class MainGame extends Application {
                 root.getChildren().remove(imageView);
                 updateScore();
             });
-        }
     }
 
     private void addGold(int count, int minRange, int maxRange, int kind) {
@@ -202,11 +204,15 @@ public class MainGame extends Application {
             int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
             Gold gold = new Gold(x, y, kind);
+            System.out.println(gold);
             //add to game object list to handle collision
             lisst.add(gold);
-            ImageView imageView = gold.getImageView(1);
-            imageView.setFitWidth((kind + 2) * 15);
-            imageView.setFitHeight((kind + 2) * 15);
+
+            //TỈ lệ kích thước của ảnh so với ảnh gốc là tỉ lệ của chiều rộng
+            double sizeScale= gold.getSize()/gold.getImg(0).getWidth();
+            ImageView imageView = gold.getImageView(0);
+            imageView.setFitWidth(gold.getSize());
+            imageView.setFitHeight(gold.getImg(0).getHeight() * sizeScale);
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
@@ -230,9 +236,10 @@ public class MainGame extends Application {
             Rock rock = new Rock(x, y, kind);
             //add to game object list to handle collision
             lisst.add(rock);
+            double sizeScale= rock.getSize()/rock.getImg(0).getWidth();
             ImageView imageView = rock.getImageView(1);
-            imageView.setFitWidth((kind + 2) * 15);
-            imageView.setFitHeight((kind + 2)*15);
+            imageView.setFitWidth(rock.getSize());
+            imageView.setFitHeight(rock.getImg(0).getHeight() * sizeScale);
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
@@ -254,12 +261,13 @@ public class MainGame extends Application {
             int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
             int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
 
-            Mole mole = new Mole(x, y, x - 200, y + 50, 0);
+            Mole mole = new Mole(x, y, x - 200, y + 50, 1);
             lisst.add(mole);
+            double sizeScale= mole.getSize()/mole.getImg(0).getWidth();
             ImageView imageView = mole.getImageView(1);
             mole.move(imageView, kind);
-            imageView.setFitWidth(20);
-            imageView.setFitHeight(10);
+            imageView.setFitWidth(mole.getSize());
+            imageView.setFitHeight(mole.getImg(0).getHeight() * sizeScale);
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
@@ -285,9 +293,10 @@ public class MainGame extends Application {
             Ruby ruby = new Ruby(x, y, kind);
             //add to game object list to handle collision
             lisst.add(ruby);
+            double sizeScale= ruby.getSize()/ruby.getImg(0).getWidth();
             ImageView imageView = ruby.getImageView(1);
-            imageView.setFitWidth(25);
-            imageView.setFitHeight(25);
+            imageView.setFitWidth(ruby.getSize());
+            imageView.setFitHeight(ruby.getImg(0).getHeight() * sizeScale);
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
@@ -302,6 +311,33 @@ public class MainGame extends Application {
         }
     }
 
+    //add boom
+    private void addBoom(int count, int minRange, int maxRange, int kind) {
+        int minRangeX = minRange - 100;
+        int maxRangeX = maxRange + 100;
+        for (int i = 0; i < count; i++) {
+            int x = (int) (Math.random() * (maxRangeX - minRangeX + 1)) + minRangeX;
+            int y = (int) (Math.random() * (maxRange - minRange + 1)) + minRange;
+            Ruby ruby = new Ruby(x, y, kind);
+            //add to game object list to handle collision
+            lisst.add(ruby);
+            double sizeScale= ruby.getSize()/ruby.getImg(0).getWidth();
+            ImageView imageView = ruby.getImageView(1);
+            imageView.setFitWidth(ruby.getSize());
+            imageView.setFitHeight(ruby.getImg(0).getHeight() * sizeScale);
+            imageView.setLayoutX(x);
+            imageView.setLayoutY(y);
+            root.getChildren().add(imageView);
+            imageView.setOnMouseClicked(event -> {
+                PlayMusic thuvatpham = new PlayMusic();
+                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+                thuvatpham.run();
+                currentScore += ruby.getVal(); // Example score increment
+                root.getChildren().remove(imageView);
+                updateScore();
+            });
+        }
+    }
 
 
     private void startLevel() {
@@ -321,19 +357,20 @@ public class MainGame extends Application {
         gameTimeline.play();
 
         // Clear previous objects except the robot, muscle, and claw except scoreBoardView
+        //xoas cac doi tuong truoc do ngoai robot, muscle, claw
         root.getChildren().removeIf(node -> node instanceof ImageView);
+        root.getChildren().removeIf(node -> node instanceof Line);
         try {
             lisst.clear();
+            claw=null;
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
 
-
-
         if (currentLevel == 0){
             addRock(3, 150, 450, 1);
             addRock(2, 150, 450, 0);
-            addGold(3, 150, 450, 1);
+            addGold(3, 150, 450, 2);
             addGold(5, 150, 450, 0);
             //System.out.println("number of object: "+lisst.size());
         }
@@ -375,6 +412,7 @@ public class MainGame extends Application {
             addGold(5, 150, 450, 1);
             addGold(5, 150, 450, 0);
             addDiamond(3, 150, 450, 1);
+            addBoom(2, 150, 450, 1);
             //System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 5){
@@ -399,11 +437,15 @@ public class MainGame extends Application {
             Line line = new Line();
             @Override
             public void handle(long now) {
-                System.out.println(lisst.size());
-                claw.move();
+                System.out.println("Item remain:  " + lisst.size());
+                int itemScore = claw.move();
+                currentScore += itemScore;
+                System.out.println("Main game :     " +itemScore);
+                updateScore();
                 claw.updateImage(clawView);
                 root.setOnMouseClicked(e->{
                     claw.stretch();
+                    
                 });
                 //xoá line cũ
                 root.getChildren().remove(line);

@@ -2,7 +2,7 @@ package com.oop.model;
 import javafx.scene.image.ImageView;
 public class Mole extends Moveable{
     public static final int[] VAL = { 5, 500};
-    public static final int[] SIZE = { 30, 40};
+    public static final int[] SIZE = { 30, 30};
     public static final String[] IMG_PATHS = { "file:src/main/resources/image/Mole/go_left_mole.png", "file:src/main/resources/image/Mole/go_left_diamondmole.png"};
     public static final String[] IMG_PATHS2 = { "file:src/main/resources/image/Mole/rego_left_mole.png", "file:src/main/resources/image/Mole/rego_left_diamondmole.png"};
     public static final String[] IMG_PATHS3 = { "file:src/main/resources/image/Mole/go_right_mole.png", "file:src/main/resources/image/Mole/go_right_diamondmole.png"};

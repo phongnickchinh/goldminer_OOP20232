@@ -12,14 +12,15 @@ import javafx.util.Duration;
 //import java.util.Random;
 public class Moveable extends GameObject{
 
+    private int preX;
     private int dir; // 0 hướng trái, 1 hướng phải
     private int left;
     private int right;
-    private final Image itemImg; //image when item is not caught
-    private final Image itemImgAnother; // image reverse of itemImg
-    private final Image caughtImg; //image when item is caught
-    private final Image caughtImgAnother; // image reverse of caughtImg
-    private final ImageView imageView;
+    private Image itemImg; //image when item is not caught
+    private Image itemImgAnother; // image reverse of itemImg
+    private Image caughtImg; //image when item is caught
+    private Image caughtImgAnother; // image reverse of caughtImg
+    private ImageView imageView;
 
     public Moveable(int xx, int yy, String imgPath, String imgPath2, String imgPath3, String imgPath4, int val, int size, int l, int r, double speed, String musicPath) {
         super(xx, yy, imgPath, imgPath2, val, size, speed, musicPath);
@@ -28,18 +29,13 @@ public class Moveable extends GameObject{
         System.out.println(dir);
         left = l;
         right = r;
-        if (dir==0) {
-            itemImg = new Image(imgPath);
-            itemImgAnother = new Image( imgPath3);
-            caughtImg = new Image(imgPath2);
-            caughtImgAnother = new Image(imgPath4);
-        }
-        else {
+        preX = xx;
+
             itemImg = new Image(imgPath3);
-            itemImgAnother = new Image(imgPath);
+            itemImgAnother = new Image( imgPath);
             caughtImg = new Image(imgPath4);
             caughtImgAnother = new Image(imgPath2);
-        }
+
 
 
         imageView = new ImageView(itemImg);
@@ -55,6 +51,7 @@ public class Moveable extends GameObject{
         // Tạo một Timeline để cập nhật liên tục toạ độ của moleView
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000/60), e -> {
             // Tính toạ độ mới của mole
+            preX = (int) this.X;
             this.X += speed*(dir*2-1);
             
             // Cập nhật toạ độ của moleView
@@ -79,7 +76,7 @@ public class Moveable extends GameObject{
         //nếu vật thể đang được gắp lên
         if (caughtFlag) {
             //nếu hướng của vật thể là 1 (phải) thì hiển thị hình ảnh caughtImg
-            if (dir==1) {
+            if (preX > X) {
                 imageView.setImage(caughtImg);
             //nếu hướng của vật thể là 0 (trái) thì hiển thị hình ảnh caughtImgAnother
             } else {
@@ -88,7 +85,7 @@ public class Moveable extends GameObject{
             //nếu vật thể không được gắp lên
         } else {
             //nếu hướng của vật thể là 1 (phải) thì hiển thị hình ảnh itemImg
-            if (dir==1) {
+            if (preX > X) {
                 imageView.setImage(itemImg);
             //nếu hướng của vật thể là 0 (trái) thì hiển thị hình ảnh itemImgAnother
             } else {
@@ -138,5 +135,13 @@ public class Moveable extends GameObject{
 
     public double getSpeed() {
         return Speed;
+    }
+
+    public Image getItemImg() {
+        return itemImg;
+    }
+
+    public Image getItemImgAnother() {
+        return itemImgAnother;
     }
 }

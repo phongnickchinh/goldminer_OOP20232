@@ -43,7 +43,7 @@ public class Boom extends GameObject{
     public void explosive(ImageView boomImageView){
         for (int i = 1; i < 3; i++) {
             try {
-                Thread.sleep(200);
+                Thread.sleep(50);
                 boomImageView.setImage(bombImg[i]);
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -6,7 +6,7 @@ public class Mysterybox extends GameObject{
    int kind;  // Item or money
 
     public Mysterybox(double xx, double yy) {
-        super(xx, yy, "file:src/main/resources/image/Mysterybox/box2.png", "file:src/main/resources/image/Mysterybox/box1.png", 0, 43, (6 - Math.random() * 5), "src/main/resources/music/thugoiqua.wav");
+        super(xx, yy, "file:src/main/resources/image/Mysterybox/box2.png", "file:src/main/resources/image/Mysterybox/rechest.png", 0, 43, (6 - Math.random() * 5), "src/main/resources/music/thugoiqua.wav");
 
         if ((int) (Math.random() * 4) == 3)
             kind = 1;
@@ -16,19 +16,23 @@ public class Mysterybox extends GameObject{
 
     // Override: Lucky grass
     public int getVal() {
-        // Lucky grass adds money
-        if (Main.toolNum[1] == 1 && kind == 0)
-            return (int) (Math.random() * 400) + 400;
-        // Update items
-        else if (kind == 1) {
-            if ((int) (Math.random() * 5) == 0) {
-                Main.toolNum[0]++;
-                Main.powerNum = 5;
-            } else
-                Main.toolNum[3]++;
+        int rad = (int) Math.random();
+        rad = (rad % 5);
+        switch (rad) {
+            case 0:
+                return -400;
+            case 1:
+                return -100;
+            case 2:
+                return 400;
+            case 3:
+                return 600;
+            case 4:
+                return 0; 
+            default:
+                break;
         }
-        // Normal money
-        return (int) (Math.random() * 500) + 50;
+        return 0;
     }
 
     @Override

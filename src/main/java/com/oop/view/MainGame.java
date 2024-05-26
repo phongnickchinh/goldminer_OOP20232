@@ -10,6 +10,7 @@ import com.oop.model.Diamond;
 import com.oop.model.GameObject;
 import com.oop.model.Gold;
 import com.oop.model.Mole;
+import com.oop.model.Mysterybox;
 import com.oop.model.Rock;
 import com.oop.model.Ruby;
 
@@ -37,8 +38,8 @@ public class MainGame extends Application {
         lisst = new ArrayList<>();
     };//lưu lại đối tượng ẩn vì móc kéo tượng tác với đối tượng thay vì imageview
     private static final int NUM_LEVELS = 6;
-    private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 3000}; // Example target scores for each level
-    private int currentLevel = 0;
+    private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 4000}; // Example target scores for each level
+    private int currentLevel = 5;
     private int currentScore = 0;
     private int timeRemaining = 60;
     private Timeline gameTimeline;
@@ -308,7 +309,30 @@ public class MainGame extends Application {
                 root.getChildren().remove(imageView);
                 updateScore();
             });*/
-        }
+        //}
+    }
+
+    private  void addMysteryBox(int x_axis, int y_axis){
+        int x = x_axis;
+        int y = y_axis;
+        Mysterybox mysteryBox = new Mysterybox(x, y);
+        //add to game object list to handle collision
+        lisst.add(mysteryBox);
+        double sizeScale= mysteryBox.getSize()/mysteryBox.getImg(0).getWidth();
+        ImageView imageView = mysteryBox.getImageView(0);
+        imageView.setFitWidth(mysteryBox.getSize());
+        imageView.setFitHeight(mysteryBox.getImg(0).getHeight() * sizeScale);
+        imageView.setLayoutX(x);
+        imageView.setLayoutY(y);
+        root.getChildren().add(imageView);
+        /*imageView.setOnMouseClicked(event -> {
+            PlayMusic thuvatpham = new PlayMusic();
+            thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+            thuvatpham.run();
+            currentScore += ruby.getVal(); // Example score increment
+            root.getChildren().remove(imageView);
+            updateScore();
+        });*/
     }
 
 
@@ -471,14 +495,16 @@ public class MainGame extends Application {
             
 
             addMole(237, 170, 150, 600, 1);
-            addMole(106, 378, 50, 300, 1);
-            addMole(178, 246, 139, 290, 1);
+            addMole(106, 378, 50, 300, 0);
+            addMole(178, 246, 139, 290, 0);
             addMole(410, 300, 300, 600, 1);
             addMole(410, 425, 200, 600, 1);
             //boom{210,340}
             //boom{470,340}
             addBoom(210, 340);
             addBoom(470, 340);
+
+            addMysteryBox(350, 440);
         }
 
 

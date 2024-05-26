@@ -148,7 +148,7 @@ public class Claw {
         //kiểm tra danh sách vật thể xem có vật nào trùng với claw X, Y không
         //thêm vào độ lớn của vật thể để họp lý hơn
         for(GameObject item: MainGame.lisst){
-            if(clawX>item.getX()&&clawX<item.getX()+item.getSize()&&clawY>item.getY()&&clawY<item.getY()+item.getSize()){
+            if(clawX>item.getX()&&clawX<item.getX()+item.getSize()&&clawY>item.getY()&&clawY<item.getY()+((double)item.getX()/(double)item.getY()*item.getSize())){
                 System.out.println("catched");
                 this.Item = item;
                 item.caughtFlag=true;
@@ -180,6 +180,23 @@ public class Claw {
                         }
                     }
 
+                }
+                if(Item instanceof Moveable){
+                    for(Node node: root.getChildren()){
+                        if(node instanceof ImageView){
+                            if(((ImageView) node).getImage()==((Moveable) Item).getItemImg() || ((ImageView) node).getImage()==((Moveable) Item).getItemImgAnother()){
+                                root.getChildren().remove(node);
+                                
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if(Item instanceof Mysterybox){
+                    int  boxValue = ((Mysterybox) Item).getVal();
+                    if(boxValue ==0)
+                        stretchSpeed *=2;
                 }
                 this.stretchSpeed = stretchSpeed*20/Item.getSize();
                 stateFlag = 2;

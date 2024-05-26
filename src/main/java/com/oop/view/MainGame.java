@@ -291,7 +291,7 @@ public class MainGame extends Application {
 
 
     private void startLevel() {
-        timeRemaining = 10; 
+        timeRemaining = 60; 
         currentScore = 0; 
         updateScore();
         updateTime();

@@ -4,7 +4,7 @@ package com.oop.model;
 import javafx.scene.image.ImageView;
 
 public class Diamond extends GameObject{
-    private static final int[] VAL = { 400,450};
+    private static final int[] VAL = { 500,500};
     private static final int[] SIZE = {28,28};
 
     //đường dẫn đến ảnh được quy định như dưới đây

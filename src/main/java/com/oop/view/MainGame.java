@@ -349,133 +349,139 @@ public class MainGame extends Application {
 
         if (currentLevel == 0){
             addRock(480, 250, 1);
-            addRock(242, 309, 0);
-            addRock(179, 120, 1);
-            addRock(361, 256, 0);
-            addRock(389, 406, 1);
+            //addRock(242, 120, 0);
+            addRock(279, 320, 1);
+            addRock(361, 156, 0);
+            addRock(189, 206, 0);
 
-            addGold(556, 380, 1);
-            addGold(326, 149, 0);
-            addGold(215, 175, 1);
-            addGold(132, 354, 0);
-            addGold(254, 405, 1);
-            addGold(136, 264, 0);
+            addGold(100, 380, 1);
+            addGold(326, 249, 0);
+            addGold(215, 275, 1);
+            addGold(232, 354, 0);
+            addGold(454, 405, 2);
+            addGold(436, 264, 0);
             addGold(45, 247, 0);
-            addGold(410, 250, 0);
-            addGold(450, 130, 0);
-
-            addBoom(200, 200);
+            addGold(550, 280, 1);
+            addGold(150, 130, 0);
             //System.out.println("number of object: "+lisst.size());
         }
         else if (currentLevel == 1){
             addGold(480, 250, 1);
-            addGold(389, 406, 0);
+            addGold(289, 360, 0);
             addGold(556, 380, 1);
-            addGold(326, 149, 0);
-            addGold(215, 175, 1);
-            addGold(157, 398, 2);
-            addGold(126, 278, 0);
-            addGold(410, 250, 2);
+            addGold(326, 215, 0);
+            addGold(190, 215, 0);
+            addGold(100, 398, 2);
+            addGold(126, 278, 1);
+            addGold(410, 400, 2);
             addGold(450, 130, 0);
 
             addRock(242, 309, 0);
-            addRock(179, 120, 1);
-            addRock(361, 256, 1);
+            addRock(210, 160, 0);
+            addRock(361, 290, 1);
             addRock(132, 354, 1);
-            addRock(56, 247, 0);
+            addRock(56, 247, 1);
             addRock(439, 199, 1);
+            addRock(320, 150, 0);
         }
         else if (currentLevel == 2){
 
             addRock(198, 186, 0);
-            addRock(56, 247, 0);
-            addRock(446, 187, 1);
-            addRock(347, 209, 0);
-            addRock(149, 400, 1);
-            addRock(289, 139, 0);
+            addRock(256, 247, 0);
+            addRock(446, 230, 1);
+            addRock(347, 159, 0);
+            addRock(145, 340, 1);
+            addRock(499, 185, 0);
 
             addGold(107, 406, 0);
-            addGold(556, 380, 1);
-            addGold(314, 164, 0);
-            addGold(254, 405, 2);
+            addGold(356, 380, 2);
+            addGold(314, 264, 1);
+            addGold(190, 405, 2);
             addGold(126, 278, 0);
-            addGold(410, 250, 2);
-            addGold(450, 150, 0);
+            addGold(550, 350, 2);
+            addGold(450, 190, 0);
+            addGold(450, 280, 1);
             
-            addDiamond(437,  390, 0);
-            addDiamond(389, 160, 0);
+            addDiamond(137,  390, 0);
+            addDiamond(505, 250, 0);
         }
 
         else if (currentLevel == 3){
             addRock(126, 278, 1);
-            addRock(314, 164, 1);
-            addRock(198, 186, 0);
-            addRock(56, 247, 0);
+            addRock(214, 230, 0);
+            //addRock(198, 186, 0);
+            addRock(256, 347, 0);
             addRock(446, 187, 1);
             addRock(347, 209, 0);
+            //addRock(400, 330, 1);
 
             addRuby(149, 400, 1);
-            addRuby(289, 139, 0);
-            addRuby(134, 189, 0);
+            addRuby(320, 339, 0);
+            addRuby(370, 400, 0);
 
-            addGold(107, 406, 0);
-            addGold(556, 380, 1);
+            addGold(170, 359, 0);
+            addGold(556, 380, 2);
             addGold(254, 405, 2);
-            addGold(410, 250, 2);
-            addGold(310, 280, 2);
+            addGold(410, 250, 1);
+            addGold(310, 280, 1);
+            addGold(500, 280, 2);
 
-            addDiamond(450, 150, 0);
-            addDiamond(437,  390, 0);
-            addDiamond(389, 160, 0);
-            addDiamond(143, 356, 0);
+            addDiamond(450, 410, 0);
+            //addDiamond(400,  390, 0);
+           // addDiamond(389, 160, 0);
+            addDiamond(100, 356, 0);
+            //boom{400,370}
         }
 
         else if (currentLevel == 4){
             addRock(126, 278, 1);
             addRock(314, 164, 1);
             addRock(450, 150, 0);
-            addRock(437,  390, 0);
-            addDiamond(446, 187, 1);
-            addDiamond(347, 209, 0);
+            addRock(457,  350, 0);
+            //addDiamond(446, 187, 1);
+            //addDiamond(347, 209, 0);
 
             addGold(149, 400, 1);
             addGold(289, 139, 0);
             addGold(107, 406, 2);
             addGold(556, 380, 2);
+            addGold(49, 227, 2);
+            addGold(556, 280, 2);
 
             addRuby(254, 405, 0);
-            addRuby(410, 250, 0);
+            addRuby(410, 299, 0);
             addRuby(156, 350, 0);
-            addRuby(40, 430, 0);
+            addRuby(40, 30, 0);
 
-            addDiamond(389, 160, 0);
-            addDiamond(198, 186, 0);
-            addDiamond(56, 247, 0);
+            addDiamond(450, 370, 0);
+            addDiamond(198, 386, 0);
+            addDiamond(399, 447, 0);
 
-            addMole(237, 190, 0);
-            addMole(106, 378, 0);
-            addMole(178, 246, 0);
+            addMole(237, 200, 1);
+            //addMole(106, 378, 0);
+            addMole(178, 305, 1);
+            //boom1{450,200}
+            //boom2{314,350}
         }
         else if (currentLevel == 5){
+            
             addDiamond(126, 278, 0);
-            addDiamond(314, 164, 0);
-            addDiamond(450, 150, 0);
+            addDiamond(314, 184, 0);
+            addDiamond(450, 260, 0);
             addDiamond(437,  390, 0);
-            addDiamond(446, 187, 0);
-            addDiamond(347, 209, 0);
+            addDiamond(546, 367, 0);
+            addDiamond(380, 509, 0);
+            addDiamond(189, 410, 0);
+            addDiamond(289, 360, 0);
+            
 
-            addRuby(149, 400, 0);
-            addRuby(289, 139, 0);
-            addRuby(254, 405, 0);
-            addMole(410, 250, 0);
-
-            addDiamond(389, 160, 0);
-            addDiamond(198, 186, 0);
-            addDiamond(56, 247, 0);
-
-            addMole(237, 190, 0);
-            addMole(106, 378, 0);
-            addMole(178, 246, 0);
+            addMole(237, 170, 1);
+            addMole(106, 378, 1);
+            addMole(178, 246, 1);
+            addMole(410, 300, 1);
+            addMole(410, 425, 1);
+            //boom{210,340}
+            //boom{470,340}
         }
 
 

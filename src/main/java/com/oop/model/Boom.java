@@ -32,7 +32,7 @@ public class Boom extends GameObject{
     public List<GameObject> getExplosiveObjects(){
         for (GameObject gameObject : MainGame.lisst) {
             //nếu toạ độ của gameObject nằm trong vùng nổ của boom thì thêm vào list
-            if (gameObject.X > this.X - 150 && gameObject.X < this.X + 150 && gameObject.Y > this.Y - 150 && gameObject.Y < this.Y + 150) {
+            if (gameObject.X > this.X - 100 && gameObject.X < this.X + 100 && gameObject.Y > this.Y - 100 && gameObject.Y < this.Y + 100) {
                 listExplosive.add(gameObject);
             }
         }

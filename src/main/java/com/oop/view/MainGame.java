@@ -32,13 +32,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 public class MainGame extends Application {
 
-    private Claw claw;
     public static List<GameObject> lisst;
     static{
         lisst = new ArrayList<>();
     };//lưu lại đối tượng ẩn vì móc kéo tượng tác với đối tượng thay vì imageview
     private static final int NUM_LEVELS = 6;
-    private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 4000}; // Example target scores for each level
+    private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 3000}; // Example target scores for each level
     private int currentLevel = 5;
     private int currentScore = 0;
     private int timeRemaining = 60;
@@ -82,7 +81,6 @@ public class MainGame extends Application {
             gameTimeline.stop();
             //dừng các animation timer
             lisst.removeAll(lisst);
-            claw=null;
             //huỷ root cũ
             root.getChildren().removeAll();
             FisrtMenu turnFirst = new FisrtMenu();
@@ -359,7 +357,6 @@ public class MainGame extends Application {
         root.getChildren().removeIf(node -> node instanceof Line);
         try {
             lisst.clear();
-            claw=null;
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -507,18 +504,17 @@ public class MainGame extends Application {
             addMysteryBox(350, 440);
         }
 
-
         List<Image> list = addRobot();
         Image robot = list.get(0);
         Image muscle = list.get(1);
 
 
 
-        //make claw
+        //cần cẩu được xử lí tại khu vực này
         Claw claw = new Claw(root);
         ImageView clawView = addClaw();
 
-        //make animation claw
+        //Xử lí cập nhật toạ độ claw sau mỗi 1/60s
         timer = new AnimationTimer() {
             Line line = new Line();
             @Override
@@ -527,6 +523,7 @@ public class MainGame extends Application {
                 currentScore += itemScore;
                 updateScore();
                 claw.updateImage(clawView);
+                //thay đổi trạng thái từ 0 ->1 khi bấm chuột
                 root.setOnMouseClicked(e->{
                     claw.stretch();
                     
@@ -546,10 +543,6 @@ public class MainGame extends Application {
             }
         };
         timer.start();
-
-        //call stretch() when down key is pressed
-        
-
 
     }
 

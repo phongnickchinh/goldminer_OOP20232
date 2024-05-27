@@ -14,20 +14,22 @@ public class Claw {
     // Tọa độ hiện tại của móc cẩu
     private double clawX;
     private double clawY;
+    //Toạ độ khởi tạo của móc cẩu
     private double firstX;
     private double firstY;
+    // Tọa độ trung tâm của móc cẩu, chính là cái vai của robot
     private double centerX;
     private double centerY;
-    // Tốc độ kéo dài
+    // Tốc độ kéo mặc định
     double stretchSpeed;
     // Hướng quay
     private int spinDirection;
-    // Góc quay
+    // Góc quay của móc cẩu, góc quay trước đó 1s (tính bằng radian)
     private double preAngle,angle;
     // bán kính quay
     private double radius;
     
-    // Ba trạng thái: quay, hạ xuống, nâng lên
+    // Ba trạng thái: quay tại chỗ, hạ xuống, nâng lên 0,1,2
     private int stateFlag;
     
     // Đối tượng hiện tại đang được móc cẩu
@@ -145,8 +147,8 @@ public class Claw {
             stateFlag = 2;
         }
 
-        //kiểm tra danh sách vật thể xem có vật nào trùng với claw X, Y không
-        //thêm vào độ lớn của vật thể để họp lý hơn
+        //kiểm tra danh sách vật thể tại mainGame.lisst xem có vật nào trùng với claw X, Y không
+        //tính toán vị trí của kẹp so với các vật thể trong lisst, nếu trùng thì bắt vật thể đó
         for(GameObject item: MainGame.lisst){
             if(clawX>item.getX()&&clawX<item.getX()+item.getSize()&&clawY>item.getY()&&clawY<item.getY()+((double)item.getX()/(double)item.getY()*item.getSize())){
                 System.out.println("catched");
@@ -198,6 +200,7 @@ public class Claw {
                     if(boxValue ==0)
                         stretchSpeed *=2;
                 }
+                //cài đặt tốc độ kéo theo kích thước của vật thể
                 this.stretchSpeed = stretchSpeed*20/Item.getSize();
                 stateFlag = 2;
                 //xoá vật thể khỏi danh sách
@@ -220,12 +223,14 @@ public class Claw {
     //hàm pullUp có chức năng thực hiện kéo lên vật thể đã bắt được:
     public int pullUp() {
         System.out.println("pullUp");
+        //cài đặt toạ độ x, y mới của kẹp mỗi lần gọi hàm
         preAngle = angle;
         clawX -= stretchSpeed * Math.sin(angle);
         clawY -= stretchSpeed * Math.cos(angle);
-        //khi kéo đến nơi
+        //khi kéo đến vị trí ban đầu thì chuyển sang trạng thái quay
         if(clawY<=firstY){
             if(Item!=null){
+            //đặt lại tốc độ kéo mặc định
             stretchSpeed = stretchSpeed*Item.getSize()/20;
             //nếu không phải boom thì phát nhạc lúc kéo lên
             if(!(Item instanceof Boom)){
@@ -248,6 +253,7 @@ public class Claw {
     //hàm updateImage có chức năng cập nhật hình ảnh của kẹp tuỳ theo trường hợp:
     public void updateImage( ImageView clawView) {
 
+        //nếu không có vật thể nào hoặc vật thể là boom thì cập nhật hình ảnh của kẹp là hình ảnh chỉ có kẹp
         if(this.Item==null || this.Item instanceof Boom){
             clawView.setFitHeight(clawImage.getHeight()/1.5/Main.scale);
             clawView.setFitWidth(clawImage.getWidth()/1.5/Main.scale);
@@ -264,6 +270,7 @@ public class Claw {
             clawView.setLayoutX(clawX - clawImage.getWidth()*0.25/2);
             clawView.setLayoutY(clawY - clawImage.getHeight()*0.25/2);
         }
+        //nếu có vật thể được gắp thì cập nhật hình ảnh của kẹp là hình ảnh của vật thể đó
         else{
             double sizeScale= Item.getSize()/Item.getImg(0).getWidth();
             Image itemImage = Item.getImg(0.0);

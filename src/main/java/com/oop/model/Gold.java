@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Gold extends GameObject{
 
-    private static final int[] VAL = {100, 200, 300};
+    private static final int[] VAL = {100, 200, 400};
     private static final int[] SIZE = {27, 40, 73};
     private static final String[] IMG_PATHS = {"file:src/main/resources/image/Gold/gold12.png", "file:src/main/resources/image/Gold/gold22.png", "file:src/main/resources/image/Gold/gold32.png"};
     private static final String[] IMG_PATHS2 = {"file:src/main/resources/image/Gold/regold12.png", "file:src/main/resources/image/Gold/regold22.png", "file:src/main/resources/image/Gold/regold32.png"};

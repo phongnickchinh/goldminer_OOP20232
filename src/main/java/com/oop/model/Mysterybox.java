@@ -1,6 +1,4 @@
 package com.oop.model;
-import com.oop.Main;
-
 import javafx.scene.image.ImageView;
 public class Mysterybox extends GameObject{
    int kind;  // Item or money
@@ -17,7 +15,7 @@ public class Mysterybox extends GameObject{
     // Override: Lucky grass
     public int getVal() {
         int rad = (int) Math.random();
-        rad = (rad % 5);
+        rad = (rad % 8);
         switch (rad) {
             case 0:
                 return -400;
@@ -28,6 +26,9 @@ public class Mysterybox extends GameObject{
             case 3:
                 return 600;
             case 4:
+            case 5:
+            case 6:
+            case 7:
                 return 0; 
             default:
                 break;

@@ -2,7 +2,6 @@ package com.oop.view;
 
 import com.oop.Main;
 
-import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;  
 import javafx.application.Application;  
 import javafx.scene.Group;  
@@ -10,12 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;  
-import javafx.scene.shape.Circle;  
 import javafx.stage.Stage;  
 import javafx.util.Duration;  
 public class Translate_Transition extends Application{  
   
     int X;
+    @SuppressWarnings("exports")
     @Override  
     public void start(Stage primaryStage) throws Exception {  
         // TODO Auto-generated method stub  
@@ -52,7 +51,7 @@ public class Translate_Transition extends Application{
         root.getChildren().addAll(moleView);
         Scene scene = new Scene(root,500,200,Color.WHEAT);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Translate Transition example");
+        primaryStage.setTitle("Test Translate Transition");
         primaryStage.show();
         moleView.setOnMouseClicked(e -> {
             root.getChildren().remove(moleView);

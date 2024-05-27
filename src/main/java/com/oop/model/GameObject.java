@@ -23,8 +23,6 @@ public abstract class GameObject {
         Size = size;
         Speed = speed;
         caughtFlag = false;
-        deleteFlag = false;
-        bombFlag = 0; 
         ItemImg = new Image(ImgPath); // truyền vào dườngdẫn đến ảnh
         CaughtImg = new Image(ImgPath2);
         CatchSound = new Music(soundPath);
@@ -59,9 +57,6 @@ public abstract class GameObject {
         Y += delta_y;
     }
 
-    public void update() {
-    }
-
     public int getSize() {
         return Size;
     }
@@ -74,15 +69,5 @@ public abstract class GameObject {
         return CaughtImg;
     }
 
-    public void touch(double clawX, double clawY, double angle) {
-        X = clawX - 75 + 4.5 * Math.sin(angle);
-        Y = clawY - 26 - 4 * Math.cos(angle);
-        Size = 150;
-        caughtFlag = true;
-    }
 
-    public void bomb() {
-        bombFlag = 1;
-        deleteFlag = true;
-    }
 }

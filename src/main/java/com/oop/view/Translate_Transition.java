@@ -17,7 +17,6 @@ public class Translate_Transition extends Application{
     @SuppressWarnings("exports")
     @Override  
     public void start(Stage primaryStage) throws Exception {  
-        // TODO Auto-generated method stub  
         X=0;
         //Creatin a view
         Image mole= new Image("file:src/main/resources/image/Mole/go_right_mole.png");

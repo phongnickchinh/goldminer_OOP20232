@@ -10,10 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-//cài đặt kích thước tthu nhỏ mặc định của hình ảnh
-
-
-
 //gọi đến pop-up chúc mừng chiến thắng khi chiến thắng
 public class Popup {
     static Image winPopup = new Image("file:src/main/resources/image/popup/win_pop_up.png");

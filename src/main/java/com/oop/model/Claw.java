@@ -183,6 +183,7 @@ public class Claw {
                     }
 
                 }
+                //nếu là mấy con chuột thì so sánh với hình ảnh của chuột của 2 hướng
                 if(Item instanceof Moveable){
                     for(Node node: root.getChildren()){
                         if(node instanceof ImageView){
@@ -195,6 +196,7 @@ public class Claw {
                     }
                 }
 
+                //nếu là hộp bí mật thì kiểm tra giá trị của hộp bí mật, nếu hộp trả về 0 thì tăng tốc độ kéo
                 if(Item instanceof Mysterybox){
                     int  boxValue = ((Mysterybox) Item).getVal();
                     if(boxValue ==0)

@@ -32,10 +32,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 public class MainGame extends Application {
 
+    @SuppressWarnings("exports")
     public static List<GameObject> lisst;
     static{
         lisst = new ArrayList<>();
     };//lưu lại đối tượng ẩn vì móc kéo tượng tác với đối tượng thay vì imageview
+    @SuppressWarnings("unused")
     private static final int NUM_LEVELS = 6;
     private static final int[] TARGET_SCORES = {650, 800, 1500, 2000, 2400, 3000}; // Example target scores for each level
     private int currentLevel = 5;
@@ -299,15 +301,15 @@ public class MainGame extends Application {
             imageView.setLayoutX(x);
             imageView.setLayoutY(y);
             root.getChildren().add(imageView);
-            /*imageView.setOnMouseClicked(event -> {
-                PlayMusic thuvatpham = new PlayMusic();
-                thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
-                thuvatpham.run();
-                currentScore += ruby.getVal(); // Example score increment
-                root.getChildren().remove(imageView);
-                updateScore();
-            });*/
-        //}
+        //     /*imageView.setOnMouseClicked(event -> {
+        //         PlayMusic thuvatpham = new PlayMusic();
+        //         thuvatpham.SetMusicPath("src/main/resources/music/thuvatpham.wav");
+        //         thuvatpham.run();
+        //         currentScore += ruby.getVal(); // Example score increment
+        //         root.getChildren().remove(imageView);
+        //         updateScore();
+        //     });*/
+        // //}
     }
 
     private  void addMysteryBox(int x_axis, int y_axis){
@@ -605,7 +607,7 @@ public class MainGame extends Application {
         messageBox.setStyle("-fx-alignment: center; -fx-spacing: 20px;");
     
         ImageView finalWinPopup = new ImageView(new Image("file:src/main/resources/image/popup/last_win_popup.png"));
-        finalWinPopup.setFitWidth(450);
+        finalWinPopup.setFitWidth(400);
         finalWinPopup.setFitHeight(300);
     
         Label messageLabel = new Label("Congratulations! You've completed all levels!");
@@ -683,7 +685,7 @@ public class MainGame extends Application {
         messageBox.setStyle("-fx-alignment: center; -fx-spacing: 20px;");
 
         ImageView losePopup = new ImageView(new Image("file:src/main/resources/image/popup/lose_pop_up.png"));
-        losePopup.setFitWidth(375);
+        losePopup.setFitWidth(350);
         losePopup.setFitHeight(300);
 
         Label messageLabel = new Label(message);

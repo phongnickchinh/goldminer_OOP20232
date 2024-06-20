@@ -11,6 +11,7 @@ import com.oop.model.GameObject;
 import com.oop.model.Gold;
 import com.oop.model.Mole;
 import com.oop.model.Mysterybox;
+import com.oop.model.PlayMusic;
 import com.oop.model.Rock;
 import com.oop.model.Ruby;
 
@@ -694,11 +695,27 @@ public class MainGame extends Application {
         Label exitMessageLabel = new Label("Click 'X' to exit the game");
         exitMessageLabel.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;");
 
-        messageBox.getChildren().addAll(losePopup, messageLabel, exitMessageLabel);
+        Label exitButton = new Label("Exit");
+        exitButton.setStyle("-fx-background-image: url('file:src/main/resources/image/button/back/back_button_red.png'); -fx-background-size: 20% 20%; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-padding: 70px; -fx-font-size: 15px; -fx-text-fill: #103082; -fx-font-weight: bold; -fx-cursor: hand;");
+        exitButton.setPrefSize(10, 10);
+        exitButton.setOnMouseClicked(e -> {
+            Stage stage = (Stage) root.getScene().getWindow();
+            stage.close();
+            //quay lại first menu
+            FisrtMenu turnFirst = new FisrtMenu();
+            turnFirst.start(stage);
+
+        });
+
+        messageBox.getChildren().addAll( exitMessageLabel, losePopup, messageLabel, exitButton);
         overlay.getChildren().add(messageBox);
 
         root.getChildren().add(overlay);
-}
+    }
+
+    public void showTargetScore() {
+        targetScoreLabel.setText("Target: " + TARGET_SCORES[currentLevel]);
+    }
 
     public static void main(String[] args) {
         launch(args);

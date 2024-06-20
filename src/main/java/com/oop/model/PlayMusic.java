@@ -1,6 +1,4 @@
-package com.oop.view;
-
-import com.oop.model.Music;
+package com.oop.model;
 
 public class PlayMusic implements Runnable{
     Thread thread;

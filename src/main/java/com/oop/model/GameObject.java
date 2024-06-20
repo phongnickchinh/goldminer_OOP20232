@@ -52,11 +52,7 @@ public abstract class GameObject {
     public void setY(int y) {
         Y = y;
     }
-    public void update(double delta_x, double delta_y) {
-        X += delta_x;
-        Y += delta_y;
-    }
-
+    
     public int getSize() {
         return Size;
     }
